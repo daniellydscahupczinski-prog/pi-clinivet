@@ -1,0 +1,500 @@
+from app.models.veterinario import Veterinario
+
+import tkinter as tk
+from tkinter import messagebox
+from tkinter import ttk
+
+
+class Veterinario_View:
+
+    def __init__(self, root, controller):
+        self.root = root
+        self.controller = controller
+
+        self.configurar_janela()
+        self.criar_componentes()
+        self.configurar_treeview()
+        self.configurar_eventos()
+
+    def configurar_janela(self):
+        self.root.title("CRUD Veterinários")
+        self.root.geometry("800x600")
+        self.root.resizable(False, False)
+
+    def criar_componentes(self):
+
+        self.lbl_titulo = tk.Label(
+            self.root,
+            text="Cadastro de Veterinários",
+            font=("Arial", 16, "bold")
+        )
+        self.lbl_titulo.grid(
+            row=0,
+            column=0,
+            columnspan=4,
+            padx=5,
+            pady=5,
+            sticky="ew"
+        )
+
+        self.frm_dados = tk.LabelFrame(
+            self.root,
+            text="Dados do Veterinário"
+        )
+        self.frm_dados.grid(
+            row=1,
+            column=0,
+            columnspan=4,
+            padx=10,
+            pady=5,
+            sticky="ew"
+        )
+
+        self.frm_dados.grid_columnconfigure(0, weight=0)
+        self.frm_dados.grid_columnconfigure(1, weight=1)
+        self.frm_dados.grid_columnconfigure(2, weight=0)
+        self.frm_dados.grid_columnconfigure(3, weight=1)
+
+        # ID
+        self.lbl_id = tk.Label(
+            self.frm_dados,
+            text="ID"
+        )
+        self.lbl_id.grid(
+            row=0,
+            column=0,
+            padx=5,
+            pady=5,
+            sticky="w"
+        )
+
+        self.txt_id = tk.Entry(
+            self.frm_dados,
+            width=10,
+            state="readonly"
+        )
+        self.txt_id.grid(
+            row=0,
+            column=1,
+            padx=5,
+            pady=5,
+            sticky="w"
+        )
+
+        # Nome
+        self.lbl_nome = tk.Label(
+            self.frm_dados,
+            text="Nome Veterinário:"
+        )
+        self.lbl_nome.grid(
+            row=1,
+            column=0,
+            padx=5,
+            pady=5,
+            sticky="w"
+        )
+
+        self.txt_nome = tk.Entry(
+            self.frm_dados,
+            width=40
+        )
+        self.txt_nome.grid(
+            row=1,
+            column=1,
+            padx=5,
+            pady=5,
+            sticky="w"
+        )
+
+        # Telefone
+        self.lbl_telefone = tk.Label(
+            self.frm_dados,
+            text="Telefone Veterinário:"
+        )
+        self.lbl_telefone.grid(
+            row=1,
+            column=2,
+            padx=5,
+            pady=5,
+            sticky="w"
+        )
+
+        self.txt_telefone = tk.Entry(
+            self.frm_dados,
+            width=40
+        )
+        self.txt_telefone.grid(
+            row=1,
+            column=3,
+            padx=5,
+            pady=5,
+            sticky="w"
+        )
+
+        # CPF
+        self.lbl_cpf = tk.Label(
+            self.frm_dados,
+            text="CPF do Veterinário:"
+        )
+        self.lbl_cpf.grid(
+            row=2,
+            column=0,
+            padx=5,
+            pady=5,
+            sticky="w"
+        )
+
+        self.txt_cpf = tk.Entry(
+            self.frm_dados,
+            width=40
+        )
+        self.txt_cpf.grid(
+            row=2,
+            column=1,
+            padx=5,
+            pady=5,
+            sticky="w"
+        )
+
+        # RG
+        self.lbl_rg = tk.Label(
+            self.frm_dados,
+            text="RG do Veterinário:"
+        )
+        self.lbl_rg.grid(
+            row=2,
+            column=2,
+            padx=5,
+            pady=5,
+            sticky="w"
+        )
+
+        self.txt_rg = tk.Entry(
+            self.frm_dados,
+            width=40
+        )
+        self.txt_rg.grid(
+            row=2,
+            column=3,
+            padx=5,
+            pady=5,
+            sticky="w"
+        )
+
+        # Especialidade
+        self.lbl_especialidade = tk.Label(
+            self.frm_dados,
+            text="Especialidade:"
+        )
+        self.lbl_especialidade.grid(
+            row=3,
+            column=0,
+            padx=5,
+            pady=5,
+            sticky="w"
+        )
+
+        self.txt_especialidade = tk.Entry(
+            self.frm_dados,
+            width=40
+        )
+        self.txt_especialidade.grid(
+            row=3,
+            column=1,
+            padx=5,
+            pady=5,
+            sticky="w"
+        )
+
+        # Frame dos botões
+        self.frm_botoes = tk.Frame(
+            self.frm_dados,
+            border=2,
+            relief="groove"
+        )
+        self.frm_botoes.grid(
+            row=4,
+            column=0,
+            padx=10,
+            pady=10,
+            columnspan=4
+        )
+
+        # Botão Novo
+        self.btn_novo = tk.Button(
+            self.frm_botoes,
+            text="Novo",
+            width=15
+        )
+        self.btn_novo.grid(
+            row=0,
+            column=0,
+            padx=5,
+            pady=5
+        )
+
+        # Botão Salvar
+        self.btn_salvar = tk.Button(
+            self.frm_botoes,
+            text="Salvar",
+            width=15
+        )
+        self.btn_salvar.grid(
+            row=0,
+            column=1,
+            padx=5,
+            pady=5
+        )
+
+        # Botão Alterar
+        self.btn_alterar = tk.Button(
+            self.frm_botoes,
+            text="Alterar",
+            width=15
+        )
+        self.btn_alterar.grid(
+            row=0,
+            column=2,
+            padx=5,
+            pady=5
+        )
+
+        # Botão Excluir
+        self.btn_excluir = tk.Button(
+            self.frm_botoes,
+            text="Excluir",
+            width=15
+        )
+        self.btn_excluir.grid(
+            row=0,
+            column=3,
+            padx=5,
+            pady=5
+        )
+
+        # Botão Fechar
+        self.btn_fechar = tk.Button(
+            self.frm_botoes,
+            text="Fechar",
+            width=15
+        )
+        self.btn_fechar.grid(
+            row=0,
+            column=4,
+            padx=5,
+            pady=5
+        )
+
+        # Treeview
+        self.tbl_veterinario = ttk.Treeview(
+            self.root,
+            show="headings"
+        )
+        self.tbl_veterinario.grid(
+            row=5,
+            column=0,
+            columnspan=4,
+            padx=10,
+            pady=10,
+            sticky="nsew"
+        )
+
+    def configurar_treeview(self):
+
+        # Somente o que queremos mostrar na tabela
+        self.tbl_veterinario["columns"] = (
+            "id",
+            "nome",
+            "especialidade"
+        )
+
+        self.tbl_veterinario.column(
+            "#0",
+            width=0,
+            stretch=False
+        )
+
+        self.tbl_veterinario.column(
+            "id",
+            width=50,
+            anchor="center"
+        )
+
+        self.tbl_veterinario.column(
+            "nome",
+            width=250
+        )
+
+        self.tbl_veterinario.column(
+            "especialidade",
+            width=200
+        )
+
+        self.tbl_veterinario.heading(
+            "id",
+            text="ID"
+        )
+
+        self.tbl_veterinario.heading(
+            "nome",
+            text="NOME"
+        )
+
+        self.tbl_veterinario.heading(
+            "especialidade",
+            text="ESPECIALIDADE"
+        )
+
+    def configurar_eventos(self):
+
+        self.btn_novo.config(
+            command=self.controller.new
+        )
+
+        self.btn_salvar.config(
+            command=self.controller.save
+        )
+
+        self.btn_alterar.config(
+            command=self.controller.update
+        )
+
+        self.btn_excluir.config(
+            command=self.controller.delete
+        )
+
+        self.btn_fechar.config(
+            command=self.controller.fechar
+        )
+
+        self.tbl_veterinario.bind(
+            "<<TreeviewSelect>>",
+            self.controller.selecionar_veterinario
+        )
+
+    def preencher_campos(self, veterinario):
+
+        self.limpar_campos()
+
+        self.txt_id.config(state="normal")
+        self.txt_id.insert(
+            0,
+            str(veterinario.id)
+        )
+        self.txt_id.config(state="readonly")
+
+        self.txt_nome.insert(
+            0,
+            veterinario.nome
+        )
+
+        self.txt_telefone.insert(
+            0,
+            veterinario.telefone
+        )
+
+        self.txt_cpf.insert(
+            0,
+            veterinario.cpf
+        )
+
+        self.txt_rg.insert(
+            0,
+            veterinario.rg
+        )
+
+        self.txt_especialidade.insert(
+            0,
+            veterinario.especialidade
+        )
+
+    def limpar_campos(self):
+
+        self.txt_id.config(state="normal")
+        self.txt_id.delete(0, tk.END)
+        self.txt_id.config(state="readonly")
+
+        self.txt_nome.delete(0, tk.END)
+        self.txt_telefone.delete(0, tk.END)
+        self.txt_cpf.delete(0, tk.END)
+        self.txt_rg.delete(0, tk.END)
+        self.txt_especialidade.delete(0, tk.END)
+
+    def limpar_treeview(self):
+
+        for item in self.tbl_veterinario.get_children():
+            self.tbl_veterinario.delete(item)
+
+    def get_id_selecionado(self):
+
+        selecao = self.tbl_veterinario.selection()
+
+        if not selecao:
+            return None
+
+        item = selecao[0]
+
+        return self.tbl_veterinario.item(item)["values"][0]
+
+    def confirmar_exclusao(self):
+
+        return messagebox.askyesno(
+            "Confirmar exclusão",
+            "Deseja realmente excluir esse veterinário?",
+            parent=self.root
+        )
+
+    def ler_dados_veterinario(self):
+
+        nome = self.txt_nome.get()
+        telefone = self.txt_telefone.get()
+        cpf = self.txt_cpf.get()
+        rg = self.txt_rg.get()
+        especialidade = self.txt_especialidade.get()
+
+        return (
+            nome,
+            telefone,
+            cpf,
+            rg,
+            especialidade
+        )
+
+    def exibir_mensagem(self, mensagem, sucesso=True):
+
+        if sucesso:
+            messagebox.showinfo(
+                "Mini ERP",
+                mensagem,
+                parent=self.root
+            )
+        else:
+            messagebox.showerror(
+                "Mini ERP",
+                mensagem,
+                parent=self.root
+            )
+
+    def exibir_veterinarios(self, veterinarios):
+
+        self.limpar_treeview()
+
+        for veterinario in veterinarios:
+
+            self.tbl_veterinario.insert(
+                "",
+                tk.END,
+                values=(
+                    veterinario.id,
+                    veterinario.nome,
+                    veterinario.especialidade
+                )
+            )
+
+    def fechar(self):
+
+        self.root.destroy()
+
+    def iniciar(self):
+
+        self.controller.get_all()
