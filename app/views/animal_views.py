@@ -1,5 +1,6 @@
 from app.models.animal import Animal
 from app.core.data_utils import Data_Utils
+from app.core.idiomas import Idioma
 
 import tkinter as tk
 from tkinter import messagebox
@@ -16,14 +17,14 @@ class Animal_View:
         self.configurar_eventos()
 
     def configurar__janela(self):
-        self.root.title("CRUD de Animais")
+        self.root.title(Idioma.t("animal.janela_titulo"))
         self.root.geometry("900x600")
         self.root.resizable(False, False)
 
     def criar_componentes(self):
         self.lbl_titulo = tk.Label(
             self.root,
-            text="Criação de animal",
+            text=(Idioma.t("animal.titulo")),
             font=("Arial", 16, "bold"),
         )
         self.lbl_titulo.grid(
@@ -35,7 +36,7 @@ class Animal_View:
         )
         self.frm_dados = tk.LabelFrame(
             self.root,
-            text="Dados do Animal"
+            text=(Idioma.t("animal.dados_frame"))
         )
         self.frm_dados.grid(
             row=1,
@@ -50,7 +51,7 @@ class Animal_View:
         self.frm_dados.grid_columnconfigure(2, weight=0)
         self.lbl_id = tk.Label(
             self.frm_dados,
-            text="ID:"
+            text=(Idioma.t("comum.id"))
         )
         self.lbl_id.grid(
             row=0,
@@ -73,7 +74,7 @@ class Animal_View:
         )
         self.lbl_nome = tk.Label(
             self.frm_dados,
-            text="Nome:"
+            text=(Idioma.t("comum.nome"))
         )
         self.lbl_nome.grid(
             row=1,
@@ -95,7 +96,7 @@ class Animal_View:
         )
         self.lbl_data_nascimento = tk.Label(
             self.frm_dados,
-            text="Data Nascimento:"
+            text=(Idioma.t("animal.data_nascimento"))
         )
         self.lbl_data_nascimento.grid(
             row=2,
@@ -117,7 +118,7 @@ class Animal_View:
         )
         self.lbl_sexo = tk.Label(
             self.frm_dados,
-            text="Sexo:"
+            text=(Idioma.t("animal.sexo"))
         )
         self.lbl_sexo.grid(
             row=3,
@@ -139,7 +140,7 @@ class Animal_View:
         )
         self.lbl_peso = tk.Label(
             self.frm_dados,
-            text="Peso:"
+            text=(Idioma.t("animal.peso"))
         )
         self.lbl_peso.grid(
             row=4,
@@ -161,7 +162,7 @@ class Animal_View:
         )
         self.lbl_cliente_id = tk.Label(
             self.frm_dados,
-            text="Cliente ID:"
+            text=(Idioma.t("animal.cliente_id"))
         )
         self.lbl_cliente_id.grid(
             row=5,
@@ -183,7 +184,7 @@ class Animal_View:
         )
         self.lbl_especie_id = tk.Label(
             self.frm_dados,
-            text="Espécie ID:"
+            text=(Idioma.t("animal.especie_id"))
         )
         self.lbl_especie_id.grid(
             row=6,
@@ -205,7 +206,7 @@ class Animal_View:
         )
         self.lbl_raca_id = tk.Label(
             self.frm_dados,
-            text="Raça ID:"
+            text=(Idioma.t("animal.raca_id"))
         )
         self.lbl_raca_id.grid(
             row=7,
@@ -239,7 +240,7 @@ class Animal_View:
         )
         self.btn_novo = tk.Button(
             self.frm_botoes,
-            text="Novo",
+            text=(Idioma.t("comum.novo")),
             width=15
         )
         self.btn_novo.grid(
@@ -250,7 +251,7 @@ class Animal_View:
         )
         self.btn_salvar = tk.Button(
             self.frm_botoes,
-            text="Salvar",
+            text=(Idioma.t("comum.salvar")),
             width=15
         )
         self.btn_salvar.grid(
@@ -261,7 +262,7 @@ class Animal_View:
         )
         self.btn_alterar = tk.Button(
             self.frm_botoes,
-            text="Alterar",
+            text=(Idioma.t("comum.alterar")),
             width=15
         )
         self.btn_alterar.grid(
@@ -272,7 +273,7 @@ class Animal_View:
         )
         self.btn_excluir = tk.Button(
             self.frm_botoes,
-            text="Excluir",
+            text=(Idioma.t("comum.excluir")),
             width=15
         )
         self.btn_excluir.grid(
@@ -283,7 +284,7 @@ class Animal_View:
         )
         self.btn_fechar = tk.Button(
             self.frm_botoes,
-            text="Fechar",
+            text=(Idioma.t("comum.fechar")),
             width=15
         )
         self.btn_fechar.grid(
@@ -356,35 +357,35 @@ class Animal_View:
         )
         self.tbl_animais.heading(
             "id",
-            text="ID"
+            text=(Idioma.t("comum.id"))
         )
         self.tbl_animais.heading(
             "nome",
-            text="NOME"
+            text=(Idioma.t("comum.nome"))
         )
         self.tbl_animais.heading(
             "data_nascimento",
-            text="DATA NASCIMENTO"
+            text=(Idioma.t("animal.data_nascimento"))
         )
         self.tbl_animais.heading(
             "sexo",
-            text="SEXO"
+            text=(Idioma.t("animal.sexo"))
         )
         self.tbl_animais.heading(
             "peso",
-            text="PESO"
+            text=(Idioma.t("animal.peso"))
         )
         self.tbl_animais.heading(
             "cliente_id",
-            text="CLIENTE ID"
+            text=(Idioma.t("animal.cliente_id"))
         )
         self.tbl_animais.heading(
             "especie_id",
-            text="ESPÉCIE ID"
+            text=(Idioma.t("animal.especie_id"))
         )
         self.tbl_animais.heading(
             "raca_id",
-            text="RAÇA ID"
+            text=(Idioma.t("animal.raca_id"))
         )
 
     def configurar_eventos(self):
@@ -494,8 +495,8 @@ class Animal_View:
 
     def confirmar_exclusao(self):
         return messagebox.askyesno(
-            "Confirmação",
-            "Deseja realmente excluir este animal?",
+            (Idioma.t("comum.confirmacao")),
+            (Idioma.t("animal.confirmacao_exclusao")),
             parent=self.root
         )
 

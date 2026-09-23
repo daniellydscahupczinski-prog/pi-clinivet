@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
+from app.core.idiomas import Idioma
+
 class Vacina_View:
     def __init__(self, root, controller):
         self.root = root
@@ -13,14 +15,14 @@ class Vacina_View:
         self.configurar_eventos()
 
     def configurar__janela(self):
-        self.root.title("CRUD de Vacinas")
+        self.root.title(Idioma.t("vacina.janela_titulo"))
         self.root.geometry("900x600")
         self.root.resizable(False, False)
 
     def criar_componentes(self):
         self.lbl_titulo = tk.Label(
             self.root,
-            text="Criação de vacina",
+            text=(Idioma.t("vacina.titulo")),
             font=("Arial", 16, "bold"),
         )
         self.lbl_titulo.grid(
@@ -32,7 +34,7 @@ class Vacina_View:
         )
         self.frm_dados = tk.LabelFrame(
             self.root,
-            text="Dados da Vacina"
+            text=(Idioma.t("vacina.dados_frame"))
         )
         self.frm_dados.grid(
             row=1,
@@ -47,7 +49,7 @@ class Vacina_View:
         self.frm_dados.grid_columnconfigure(2, weight=0)
         self.lbl_id = tk.Label(
             self.frm_dados,
-            text="ID:"
+            text=(Idioma.t("comum.id"))
         )
         self.lbl_id.grid(
             row=0,
@@ -70,7 +72,7 @@ class Vacina_View:
         )
         self.lbl_nome = tk.Label(
             self.frm_dados,
-            text="Nome:"
+            text=(Idioma.t("comum.nome"))
         )
         self.lbl_nome.grid(
             row=1,
@@ -92,7 +94,7 @@ class Vacina_View:
         )
         self.lbl_descricao = tk.Label(
             self.frm_dados,
-            text="Descricao"
+            text=(Idioma.t("vacina.descricao"))
         )
         self.lbl_descricao.grid(
             row=2,
@@ -126,7 +128,7 @@ class Vacina_View:
         )
         self.btn_novo = tk.Button(
             self.frm_botoes,
-            text="Novo",
+            text=(Idioma.t("comum.novo")),
             width=15
         )
         self.btn_novo.grid(
@@ -137,7 +139,7 @@ class Vacina_View:
         )
         self.btn_salvar = tk.Button(
             self.frm_botoes,
-            text="Salvar",
+            text=(Idioma.t("comum.salvar")),
             width=15
         )
         self.btn_salvar.grid(
@@ -148,7 +150,7 @@ class Vacina_View:
         )
         self.btn_alterar = tk.Button(
             self.frm_botoes,
-            text="Alterar",
+            text=(Idioma.t("comum.alterar")),
             width=15
         )
         self.btn_alterar.grid(
@@ -159,7 +161,7 @@ class Vacina_View:
         )
         self.btn_excluir = tk.Button(
             self.frm_botoes,
-            text="Excluir",
+            text=(Idioma.t("comum.excluir")),
             width=15
         )
         self.btn_excluir.grid(
@@ -170,7 +172,7 @@ class Vacina_View:
         )
         self.btn_fechar = tk.Button(
             self.frm_botoes,
-            text="Fechar",
+            text=(Idioma.t("comum.fechar")),
             width=15
         )
         self.btn_fechar.grid(
@@ -218,15 +220,15 @@ class Vacina_View:
         )
         self.tbl_vacinas.heading(
             "id",
-            text="ID"
+            text=(Idioma.t("comum.id"))
         )
         self.tbl_vacinas.heading(
             "nome",
-            text="NOME"
+            text=(Idioma.t("comum.nome"))
         )
         self.tbl_vacinas.heading(
             "descricao",
-            text="DESCRIÇÃO"
+            text=(Idioma.t("vacina.descricao"))
         )
 
     def configurar_eventos(self):
@@ -296,8 +298,8 @@ class Vacina_View:
 
     def confirmar_exclusao(self):
         return messagebox.askyesno(
-            "Confirmação",
-            "Deseja realmente excluir esta vacina?",
+            (Idioma.t("comum.confirmacao")),
+            (Idioma.t("vacina.confirmacao_exclusao")),
             parent=self.root
         )
 

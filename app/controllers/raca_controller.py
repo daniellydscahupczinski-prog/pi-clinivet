@@ -1,4 +1,5 @@
 from app.models.raca import Raca
+from app.core.idiomas import Idioma
 
 class Raca_Controller:
 
@@ -23,9 +24,9 @@ class Raca_Controller:
             )
             self.dao.save(raca)
             self.get_all()
-            self.view.exibir_mensagem((("Raca cadastrada com sucesso!")))
+            self.view.exibir_mensagem((Idioma.t("raca.cadastro_sucesso")))
         except ValueError as e:
-            self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+            self.view.exibir_mensagem(f"{Idioma.t('comum.erro_prefixo')}{Idioma.t(str(e))}", False)
 
     def get_all(self):
         raca = self.dao.get_all()
@@ -48,19 +49,19 @@ class Raca_Controller:
     def update(self):
         try:
             if self.raca_selecionada is None:
-                self.view.exibir_mensagem("Selecione uma raca da lista", False)
+                self.view.exibir_mensagem(Idioma.t("raca.selecione_raca"), False)
                 return
             nome = self.view.ler_dados_raca()
             self.raca_selecionada.atualizar_dados(nome)
             self.dao.update(self.raca_selecionada)
             self.get_all()
-            self.view.exibir_mensagem((("raca atualizada")))
+            self.view.exibir_mensagem((Idioma.t("raca.raca_atualizada")))
         except ValueError as e:
-            self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+            self.view.exibir_mensagem(f"{Idioma.t('comum.erro_prefixo')}{Idioma.t(str(e))}", False)
 
     def delete(self):
         if self.raca_selecionada is None:
-            self.view.exibir_mensagem("Selecione uma raca na lista", False)
+            self.view.exibir_mensagem(Idioma.t("raca.selecione_raca"), False)
             return
         if not self.view.confirmar_exclusao():
             return
@@ -72,6 +73,6 @@ class Raca_Controller:
                 self.get_all()
                 self.view.exibir_mensagem((("raca excluida com sucesso")))
             else:
-                self.view.exibir_mensagem("Raca nao encontrada", False)
+                self.view.exibir_mensagem(Idioma.t("raca.exclusao"), False)
         except Exception as e:
-            self.view.exibir_mensagem("Problemas ao excluir raca", False)
+            self.view.exibir_mensagem(Idioma.t("raca.problema_exclusao"), False)

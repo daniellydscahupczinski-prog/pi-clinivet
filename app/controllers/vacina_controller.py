@@ -1,5 +1,5 @@
 from app.models.vacina import Vacina
-
+from app.core.idiomas import Idioma 
 
 class Vacina_Controller:
     def __init__(self, dao, view):
@@ -20,9 +20,9 @@ class Vacina_Controller:
             )
             self.dao.save(vacina)
             self.get_all()
-            self.view.exibir_mensagem("Vacina cadastrada com sucesso!")
+            self.view.exibir_mensagem(Idioma.t("vacina.cadastro_sucesso"))
         except ValueError as e:
-            self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+            self.view.exibir_mensagem(f"{Idioma.t('comum.erro_prefixo')}{Idioma.t(str(e))}", False)
 
     def get_all(self):
         vacina = self.dao.get_all()
@@ -43,19 +43,19 @@ class Vacina_Controller:
     def update(self):
         try:
             if self.vacina_selecionada is None:
-                self.view.exibir_mensagem("Selecione uma vacina na lista.", False)
+                self.view.exibir_mensagem(Idioma.t("vacina.selecionar_vacina"), False)
                 return
             nome, descricao = self.view.ler_dados_vacina()
             self.vacina_selecionada.atualizar_dados(nome, descricao)
             self.dao.update(self.vacina_selecionada)
             self.get_all()
-            self.view.exibir_mensagem("Vacina atualizada com sucesso!")
+            self.view.exibir_mensagem(Idioma.t("vacina.atualizacao"))
         except ValueError as e:
-            self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+            self.view.exibir_mensagem(f"{Idioma.t('comum.erro_prefixo')}{Idioma.t(str(e))}", False)
 
     def delete(self):
         if self.vacina_selecionada is None:
-            self.view.exibir_mensagem("Selecione uma vacina na lista.", False)
+            self.view.exibir_mensagem(Idioma.t("vacina.selecionar_vacina"), False)
             return
         if not self.view.confirmar_exclusao():
             return
@@ -65,8 +65,8 @@ class Vacina_Controller:
                 self.vacina_selecionada = None
                 self.view.limpar_campos()
                 self.get_all()
-                self.view.exibir_mensagem("Vacina excluída com sucesso!")
+                self.view.exibir_mensagem(Idioma.t("vacina.exclusao"))
             else:
-                self.view.exibir_mensagem("Vacina não encontrada.", False)
+                self.view.exibir_mensagem(Idioma.t("vacina.nao_encontrada"), False)
         except Exception as e:
-            self.view.exibir_mensagem("Problemas ao excluir vacina", False)
+            self.view.exibir_mensagem(Idioma.t("vacina.problema_exclusao"), False)
