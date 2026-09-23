@@ -2,6 +2,7 @@
 from colorama import init, Fore, Style
 from app.core.database import Database
 from app.views.home_view import Home_View
+from app.core.idiomas import Idioma
  
 # Componentes de Raca
 from app.dao.raca_dao import Raca_DAO
@@ -215,7 +216,7 @@ class ErpApplication:
         self._adicionar_marca_dagua()
 
     def _configurar_janela(self):
-        titulo = "Sistema Corporativo ERP"
+        titulo = (Idioma.t("home_view.janela"))
  
         if self._usuario_logado is not None:
             titulo = f"{titulo} — {self._usuario_logado.nome} ({self._usuario_logado.perfil.nome})"
@@ -279,70 +280,102 @@ class ErpApplication:
         menu_cadastros_basicos = tk.Menu(menu_principal, tearoff=0)
  
         menu_cadastros_basicos.add_command(
-            label=("Menu de raca"),
+            label=(Idioma.t("menu.raca")),
             command=self._abrir_raca
         )
  
         menu_cadastros_basicos.add_command(
-            label=("Menu de cliente"),
+            label=(Idioma.t("menu.cliente")),
             command=self._abrir_cliente
         )
  
         menu_cadastros_basicos.add_command(
-            label=("Menu de agendamento"),
+            label=(Idioma.t("menu.agendamento")),
             command=self._abrir_agendamento
         )
  
         menu_cadastros_basicos.add_command(
-            label=("Menu de animal"),
+            label=(Idioma.t("menu.animal")),
             command=self._abrir_animal
         )
  
         menu_cadastros_basicos.add_command(
-            label=("Menu de vacina"),
+            label=(Idioma.t("menu.vacina")),
             command=self._abrir_vacina
         )
  
         menu_cadastros_basicos.add_command(
-            label=("Menu de aplicação da vacina"),
+            label=(Idioma.t("menu.aplicacao_vacina")),
             command=self._abrir_aplicacao_vacina
         )
  
         menu_cadastros_basicos.add_command(
-            label = "Menu de especies",
+            label = (Idioma.t("menu.especie")),
             command = self._abrir_especie
-        )
- 
-        menu_principal.add_cascade(
-            label=("Menus"),
-            menu=menu_cadastros_basicos
-        )
- 
-        menu_principal.add_command(
-            label=("Agenda do dia"),
-            command=self._abrir_agenda_dia
         )
  
         menu_acessos = tk.Menu(menu_principal, tearoff=0)
         menu_acessos.add_command(
-            label="consulta",
+            label=(Idioma.t("menu.consulta")),
             command = self._abrir_consulta
         )
         menu_acessos.add_command(
-            label="veterinarios",
+            label=(Idioma.t( "menu.veterinario")),
             command = self._abrir_veterinario
         )
+
+
+        # ===========================
+        # IDIOMA
+        # ===========================
+
+        menu_idioma = tk.Menu(
+            menu_principal,
+            tearoff=0
+        )
+
+        menu_idioma.add_command(
+            label="Português",
+            command=self._selecionar_portugues
+        )
+
+        menu_idioma.add_command(
+            label="English",
+            command=self._selecionar_ingles
+        )
+
         menu_principal.add_cascade(
-            label="Acessos",
-            menu=menu_acessos
+            label=Idioma.t("menu.idioma"),
+            menu=menu_idioma
         )
- 
-        menu_principal.add_command(
-            label="Sair",
-            command=self._root.destroy
-        )
- 
+
         self._root.config(menu=menu_principal)
+ 
+    # ===========================
+    # IDIOMA
+    # ===========================
+
+    def _mudar_idioma(self, codigo):
+
+        Idioma.definir(
+            codigo
+        )
+
+        self._criar_menu()
+
+    def _selecionar_portugues(self):
+
+        self._mudar_idioma(
+            "pt"
+        )
+
+    def _selecionar_ingles(self):
+
+        self._mudar_idioma(
+            "en"
+        )
+
+       
  
     # ======================================================
     # FUNÇÕES DOS BOTÕES MARRONS (Home_View)
@@ -364,13 +397,13 @@ class ErpApplication:
         """Botão 'Cadastros Básicos': os 7 cadastros básicos."""
         menu = tk.Menu(self._root, tearoff=0)
  
-        menu.add_command(label="Menu de raça", command=self._abrir_raca)
-        menu.add_command(label="Menu de cliente", command=self._abrir_cliente)
-        menu.add_command(label="Menu de agendamento", command=self._abrir_agendamento)
-        menu.add_command(label="Menu de animal", command=self._abrir_animal)
-        menu.add_command(label="Menu de vacina", command=self._abrir_vacina)
-        menu.add_command(label="Menu de aplicação da vacina", command=self._abrir_aplicacao_vacina)
-        menu.add_command(label="Menu de espécies", command=self._abrir_especie)
+        menu.add_command(label=(Idioma.t("menu.raca")), command=self._abrir_raca)
+        menu.add_command(label=(Idioma.t("menu.cliente")), command=self._abrir_cliente)
+        menu.add_command(label=(Idioma.t("menu.agendamento")), command=self._abrir_agendamento)
+        menu.add_command(label=(Idioma.t("menu.animal")), command=self._abrir_animal)
+        menu.add_command(label=(Idioma.t("menu.vacina")), command=self._abrir_vacina)
+        menu.add_command(label=(Idioma.t("menu.aplicacao_vacina")), command=self._abrir_aplicacao_vacina)
+        menu.add_command(label=(Idioma.t("menu.especie")), command=self._abrir_especie)
  
         self._popup_menu(menu)
  
@@ -378,20 +411,20 @@ class ErpApplication:
         """Botão 'Menus': tudo junto (cadastros + agenda + acessos)."""
         menu = tk.Menu(self._root, tearoff=0)
  
-        menu.add_command(label="Menu de raça", command=self._abrir_raca)
-        menu.add_command(label="Menu de cliente", command=self._abrir_cliente)
-        menu.add_command(label="Menu de agendamento", command=self._abrir_agendamento)
-        menu.add_command(label="Menu de animal", command=self._abrir_animal)
-        menu.add_command(label="Menu de vacina", command=self._abrir_vacina)
-        menu.add_command(label="Menu de aplicação da vacina", command=self._abrir_aplicacao_vacina)
-        menu.add_command(label="Menu de espécies", command=self._abrir_especie)
+        menu.add_command(label=(Idioma.t("menu.raca")), command=self._abrir_raca)
+        menu.add_command(label=(Idioma.t("menu.cliente")), command=self._abrir_cliente)
+        menu.add_command(label=(Idioma.t("menu.agendamento")), command=self._abrir_agendamento)
+        menu.add_command(label=(Idioma.t("menu.animal")), command=self._abrir_animal)
+        menu.add_command(label=(Idioma.t("menu.vacina")), command=self._abrir_vacina)
+        menu.add_command(label=(Idioma.t("menu.aplicacao_vacina")), command=self._abrir_aplicacao_vacina)
+        menu.add_command(label=(Idioma.t("menu.especie")), command=self._abrir_especie)
  
         menu.add_separator()
-        menu.add_command(label="Agenda do dia", command=self._abrir_agenda_dia)
+        menu.add_command(label=(Idioma.t("agenda.agenda_dia")), command=self._abrir_agenda_dia)
  
         menu.add_separator()
-        menu.add_command(label="Consulta", command=self._abrir_consulta)
-        menu.add_command(label="Veterinários", command=self._abrir_veterinario)
+        menu.add_command(label=(Idioma.t("menu.consulta")), command=self._abrir_consulta)
+        menu.add_command(label=(Idioma.t("menu.veterinario")), command=self._abrir_veterinario)
  
         self._popup_menu(menu)
  
@@ -399,8 +432,8 @@ class ErpApplication:
         """Botão 'Acessos': consulta e veterinários."""
         menu = tk.Menu(self._root, tearoff=0)
  
-        menu.add_command(label="Consulta", command=self._abrir_consulta)
-        menu.add_command(label="Veterinários", command=self._abrir_veterinario)
+        menu.add_command(label=(Idioma.t("menu.consulta")), command=self._abrir_consulta)
+        menu.add_command(label=(Idioma.t("menu.veterinario")), command=self._abrir_veterinario)
  
         self._popup_menu(menu)
  

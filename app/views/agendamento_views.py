@@ -1,4 +1,4 @@
-from app.models.agendamento import Agendamento
+# from app.models.agendamento import Agendamento
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk

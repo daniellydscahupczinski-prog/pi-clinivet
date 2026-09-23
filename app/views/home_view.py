@@ -2,6 +2,7 @@ import os
 import tkinter as tk
 
 from PIL import Image, ImageTk
+from app.core.idiomas import Idioma
 
 
 class Home_View:
@@ -35,7 +36,7 @@ class Home_View:
 
     def configurar_janela(self):
 
-        self.root.title("Sistema Corporativo ERP")
+        self.root.title(Idioma.t("home_view.janela"))
 
         self.root.geometry("1000x700")
 
@@ -51,7 +52,7 @@ class Home_View:
 
         self.lbl_titulo = tk.Label(
             self.root,
-            text="BEM VINDO(A)\nÀ CLINIVET!",
+            text=(Idioma.t("home_view.mensagem_entrada")),
             font=("Georgia", 26, "bold"),
             bg="#FFF9F2",
             fg="#5A3E2B",
@@ -71,7 +72,7 @@ class Home_View:
 
         self.lbl_subtitulo = tk.Label(
             self.root,
-            text="Como podemos lhe ajudar hoje?",
+            text=(Idioma.t("home_view.entrada")),
             font=("Georgia", 14),
             bg="#FFF9F2",
             fg="#5A3E2B"
@@ -113,7 +114,7 @@ class Home_View:
 
         self.btn_cadastros = tk.Button(
             self.frm_botoes,
-            text="Cadastros\nBásicos",
+            text=(Idioma.t("home_view.cadastros_basicos")),
             font=("Georgia", 16, "bold"),
             bg="#C09B7A",
             fg="#3F2A1D",
@@ -136,7 +137,7 @@ class Home_View:
 
         self.btn_menus = tk.Button(
             self.frm_botoes,
-            text="Menus",
+            text=(Idioma.t("home_view.menus")),
             font=("Georgia", 16, "bold"),
             bg="#C09B7A",
             fg="#3F2A1D",
@@ -159,7 +160,7 @@ class Home_View:
 
         self.btn_acessos = tk.Button(
             self.frm_botoes,
-            text="Acessos",
+            text=(Idioma.t("home_view.acesso")),
             font=("Georgia", 16, "bold"),
             bg="#C09B7A",
             fg="#3F2A1D",
@@ -182,7 +183,7 @@ class Home_View:
 
         self.btn_sair = tk.Button(
             self.frm_botoes,
-            text="Sair",
+            text=(Idioma.t("home_view.sair")),
             font=("Georgia", 16, "bold"),
             bg="#BDA58F",
             fg="#3F2A1D",
