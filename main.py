@@ -65,6 +65,7 @@ from app.controllers.especie_controller import Especie_Controller
 
 
 import tkinter as tk
+from PIL import Image, ImageTk
 
 
 class ErpApplication:
@@ -88,6 +89,11 @@ class ErpApplication:
         self._janela_consulta = None
         self._janela_veterinario = None
         self._janela_especie = None
+
+        # Guarda a referência da imagem da marca d'água (obrigatório no Tkinter,
+        # senão o Python descarta a imagem da memória e ela some da tela)
+        self._img_marca_dagua = None
+        self._label_marca_dagua = None
 
          # ================================
         # RACA
@@ -202,6 +208,7 @@ class ErpApplication:
 
         self._configurar_janela()
         self._criar_menu()
+        self._adicionar_marca_dagua()
 
     def _configurar_janela(self):
         titulo = "Sistema Corporativo ERP"
@@ -211,8 +218,52 @@ class ErpApplication:
 
         self._root.title(titulo)
         self._root.state("zoomed")
+        self._root.configure(bg="#FFFCF5")
 
-        
+    def _adicionar_marca_dagua(self):
+        """
+        Coloca a imagem app/assets/watermark_clinivet_original.png como marca
+        d'água no canto inferior direito da janela principal, atrás de
+        qualquer outro conteúdo que venha a ser adicionado ao self._root.
+
+        Essa versão usa a imagem original (com o fundo creme #FFFCF5 dela),
+        por isso o fundo do self._root também está configurado com a mesma
+        cor em _configurar_janela — assim não fica um "quadrado" destacado
+        ao redor da imagem.
+        """
+        caminho_imagem = "app/assets/watermark_clinivet_original.png"
+
+        try:
+            img = Image.open(caminho_imagem).convert("RGB")
+        except FileNotFoundError:
+            print(
+                Fore.YELLOW
+                + f"[Aviso] Marca d'água não encontrada em '{caminho_imagem}'. "
+                  "Pulei essa etapa."
+            )
+            return
+
+        # Redimensiona mantendo a proporção (ajuste 'largura' ao seu gosto)
+        largura = 380
+        proporcao = largura / img.width
+        altura = int(img.height * proporcao)
+        img = img.resize((largura, altura), Image.LANCZOS)
+
+        self._img_marca_dagua = ImageTk.PhotoImage(img)
+
+        self._label_marca_dagua = tk.Label(
+            self._root,
+            image=self._img_marca_dagua,
+            bg="#FFFCF5",
+            bd=0
+        )
+        # Ancorada no canto inferior direito, com uma margem de 30px.
+        # Para centralizar em vez disso, troque por:
+        #   self._label_marca_dagua.place(relx=0.5, rely=0.5, anchor="center")
+        self._label_marca_dagua.place(
+            relx=1.0, rely=1.0, anchor="se", x=-30, y=-30
+        )
+        self._label_marca_dagua.lower()
 
     def _criar_menu(self):
         menu_principal = tk.Menu(self._root)
