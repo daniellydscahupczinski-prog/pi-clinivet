@@ -1,5 +1,7 @@
 from app.models.animal import Animal
 from app.core.data_utils import Data_Utils
+
+from app.core.idiomas import Idioma
 class Animal_Controller:
 
     def __init__(self, dao, cliente_dao, especie_dao, raca_dao, view):
@@ -32,10 +34,10 @@ class Animal_Controller:
 
             self.dao.save(animal)
             self.get_all()
-            self.view.exibir_mensagem("Animal cadastrado com sucesso!")
+            self.view.exibir_mensagem(Idioma.t("animal.cadastro"))
 
         except ValueError as e:
-            self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+            self.view.exibir_mensagem(f"{Idioma.t('comum.erro_prefixo')}{Idioma.t(str(e))}", False)
 
     def carregar_clientes(self):
         cliente = self.cliente_dao.get_all()
@@ -79,7 +81,7 @@ class Animal_Controller:
         try:
             if self.animal_selecionado is None:
                 self.view.exibir_mensagem(
-                    ("Selecione um animal na lista."),
+                    (Idioma.t("animal.selecionar_animal")),
                     False
                 )
                 return
@@ -98,17 +100,15 @@ class Animal_Controller:
             self.dao.update(self.animal_selecionado)
             self.get_all()
             self.view.exibir_mensagem(
-                ("Animal atualizado com sucesso!")
+                (Idioma.t("animal.atualizacao"))
             )
         except ValueError as e:
-            self.view.exibir_mensagem(
-                f"Erro: {str(e)}",
-                False
-            )
+            self.view.exibir_mensagem(f"{Idioma.t('comum.erro_prefixo')}{Idioma.t(str(e))}", False)
+
     def delete(self):
         if self.animal_selecionado is None:
             self.view.exibir_mensagem(
-                ("Selecione um animal na lista."),
+                (Idioma.t("animal.selecionar_animal")),
                 False
             )
             return
@@ -123,15 +123,15 @@ class Animal_Controller:
                 self.view.limpar_campos()
                 self.get_all()
                 self.view.exibir_mensagem(
-                    ("Animal excluído com sucesso!")
+                    (Idioma.t("animal.exclusao"))
                 )
             else:
                 self.view.exibir_mensagem(
-                    ("Usuário não encontrado."),
+                    (Idioma.t("animal.nao_encontrado")),
                     False
                 )
         except Exception:
             self.view.exibir_mensagem(
-                ("Problemas ao excluir animal"),
+                (Idioma.t("animal.problema_exclusao")),
                 False
             )

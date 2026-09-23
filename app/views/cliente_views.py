@@ -1,4 +1,5 @@
 from app.models.cliente import Cliente
+from app.core.idiomas import Idioma
 
 import tkinter as tk
 from tkinter import messagebox
@@ -14,14 +15,14 @@ class Cliente_View:
         self.configurar_eventos()
 
     def configurar_janela(self):
-        self.root.title("Crud de Clientes")
+        self.root.title(Idioma.t("cliente.janela_titulo"))
         self.root.geometry("800x600")
         self.root.resizable(False, False)
 
     def criar_componentes(self):
         self.lbl_titulo = tk.Label(
             self.root,
-            text = ("Cadastro de cliente"),
+            text = (Idioma.t("cliente.titulo")),
             font = ("arial", 16, "bold")
         )
         self.lbl_titulo.grid(
@@ -33,7 +34,7 @@ class Cliente_View:
         )
         self.frm_dados = tk.LabelFrame(
             self.root,
-            text = ("Dados do cliente")
+            text = (Idioma.t("cliente.dados_frame"))
         )
         self.frm_dados.grid(
             row = 1,
@@ -47,7 +48,7 @@ class Cliente_View:
         self.frm_dados.grid_columnconfigure(1, weight=1)
         self.lbl_id = tk.Label(
             self.frm_dados,
-            text = "ID:"
+            text = (Idioma.t( "comum.id"))
         )
         self.lbl_id.grid(
             row = 0,
@@ -70,7 +71,7 @@ class Cliente_View:
         )
         self.lbl_nome = tk.Label(
             self.frm_dados,
-            text = ("Nome")
+            text = (Idioma.t("comum.nome"))
         )
         self.lbl_nome.grid(
             row = 1,
@@ -92,7 +93,7 @@ class Cliente_View:
         )
         self.lbl_telefone = tk.Label(
             self.frm_dados,
-            text = ("Numero de telefone:")
+            text = (Idioma.t("cliente.telefone"))
         )
         self.lbl_telefone.grid(
             row = 2,
@@ -114,7 +115,7 @@ class Cliente_View:
         )
         self.lbl_cpf = tk.Label(
             self.frm_dados,
-            text = ("Numero do cpf:")
+            text = (Idioma.t("cliente.cpf"))
         )
         self.lbl_cpf.grid(
             row = 3,
@@ -148,52 +149,58 @@ class Cliente_View:
         )
         self.btn_novo = tk.Button(
             self.frm_botoes,
-            text = (("Novo")),
-            width = 15
+            text=(Idioma.t("comum.novo")),
+            width=15
         )
         self.btn_novo.grid(
-            row = 0,
-            column = 0,
-            padx = 5,
-            pady = 5
+            row=0,
+            column=0,
+            padx=5,
+            pady=5
         )
         self.btn_salvar = tk.Button(
             self.frm_botoes,
-            text = (("Salvar")),
-            width = 15
+            text=(Idioma.t("comum.salvar")),
+            width=15
         )
         self.btn_salvar.grid(
-            row = 0,
-            column = 1,
-            padx = 5,
-            pady = 5
+            row=0,
+            column=1,
+            padx=5,
+            pady=5
         )
         self.btn_alterar = tk.Button(
             self.frm_botoes,
-            text = (("Alterar")),
-            width = 15
+            text=(Idioma.t("comum.alterar")),
+            width=15
         )
         self.btn_alterar.grid(
-            row = 0,
-            column = 2,
-            padx = 5,
-            pady = 5
+            row=0,
+            column=2,
+            padx=5,
+            pady=5
         )
         self.btn_excluir = tk.Button(
             self.frm_botoes,
-            text = (("Excluir")),
-            width = 15
+            text=(Idioma.t("comum.excluir")),
+            width=15
         )
         self.btn_excluir.grid(
-            row = 0,
-            column = 3,
-            padx = 5,
-            pady = 5
+            row=0,
+            column=3,
+            padx=5,
+            pady=5
         )
         self.btn_fechar = tk.Button(
             self.frm_botoes,
-            text = (("Fechar")),
-            width = 15
+            text=(Idioma.t("comum.fechar")),
+            width=15
+        )
+        self.btn_fechar.grid(
+            row=0,
+            column=4,
+            padx=5,
+            pady=5
         )
         self.btn_fechar.grid(
             row = 0,
@@ -244,19 +251,19 @@ class Cliente_View:
         )
         self.tbl_cliente.heading(
             "id",
-            text = "ID"
+            text = (Idioma.t("comum.id"))
         )
         self.tbl_cliente.heading(
             "nome",
-            text = "Nome"
+            text = (Idioma.t("comum.nome"))
         )
         self.tbl_cliente.heading(
             "telefone",
-            text = "Telefone"
+            text = (Idioma.t("cliente.telefone"))
         )
         self.tbl_cliente.heading(
             "cpf",
-            text = "CPF"
+            text = (Idioma.t("cliente.cpf"))
         )
     def configurar_eventos(self):
         self.btn_novo.config(
@@ -329,8 +336,8 @@ class Cliente_View:
     def confirmar_exclusao(self):
 
         return messagebox.askyesno(
-            (("confirmacao")),
-            (("Deseja realmente excluir este cliente?")),
+            (Idioma.t("comum.confirmacao")),
+            (Idioma.t("cliente.confirmacao_exclusao")),
             parent=self.root
         )
     

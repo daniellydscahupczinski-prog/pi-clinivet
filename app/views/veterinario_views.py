@@ -1,4 +1,5 @@
 from app.models.veterinario import Veterinario
+from app.core.idiomas import Idioma
 
 import tkinter as tk
 from tkinter import messagebox
@@ -17,7 +18,7 @@ class Veterinario_View:
         self.configurar_eventos()
 
     def configurar_janela(self):
-        self.root.title("CRUD Veterinários")
+        self.root.title(Idioma.t("veterinario.janela_titulo"))
         self.root.geometry("800x600")
         self.root.resizable(False, False)
 
@@ -25,7 +26,7 @@ class Veterinario_View:
 
         self.lbl_titulo = tk.Label(
             self.root,
-            text="Cadastro de Veterinários",
+            text=(Idioma.t("veterinario.titulo")),
             font=("Arial", 16, "bold")
         )
         self.lbl_titulo.grid(
@@ -39,7 +40,7 @@ class Veterinario_View:
 
         self.frm_dados = tk.LabelFrame(
             self.root,
-            text="Dados do Veterinário"
+            text=(Idioma.t("veterinario.dados"))
         )
         self.frm_dados.grid(
             row=1,
@@ -58,7 +59,7 @@ class Veterinario_View:
         # ID
         self.lbl_id = tk.Label(
             self.frm_dados,
-            text="ID"
+            text=(Idioma.t("comum.id"))
         )
         self.lbl_id.grid(
             row=0,
@@ -84,7 +85,7 @@ class Veterinario_View:
         # Nome
         self.lbl_nome = tk.Label(
             self.frm_dados,
-            text="Nome Veterinário:"
+            text=(Idioma.t("comum.nome"))
         )
         self.lbl_nome.grid(
             row=1,
@@ -109,7 +110,7 @@ class Veterinario_View:
         # Telefone
         self.lbl_telefone = tk.Label(
             self.frm_dados,
-            text="Telefone Veterinário:"
+            text=(Idioma.t("veterinario.telefone"))
         )
         self.lbl_telefone.grid(
             row=1,
@@ -134,7 +135,7 @@ class Veterinario_View:
         # CPF
         self.lbl_cpf = tk.Label(
             self.frm_dados,
-            text="CPF do Veterinário:"
+            text=(Idioma.t("veterinario.cpf"))
         )
         self.lbl_cpf.grid(
             row=2,
@@ -159,7 +160,7 @@ class Veterinario_View:
         # RG
         self.lbl_rg = tk.Label(
             self.frm_dados,
-            text="RG do Veterinário:"
+            text=(Idioma.t("veterinario.rg"))
         )
         self.lbl_rg.grid(
             row=2,
@@ -184,7 +185,7 @@ class Veterinario_View:
         # Especialidade
         self.lbl_especialidade = tk.Label(
             self.frm_dados,
-            text="Especialidade:"
+            text=(Idioma.t("veterinario.especialidade"))
         )
         self.lbl_especialidade.grid(
             row=3,
@@ -223,7 +224,7 @@ class Veterinario_View:
         # Botão Novo
         self.btn_novo = tk.Button(
             self.frm_botoes,
-            text="Novo",
+            text=(Idioma.t("comum.novo")),
             width=15
         )
         self.btn_novo.grid(
@@ -232,11 +233,9 @@ class Veterinario_View:
             padx=5,
             pady=5
         )
-
-        # Botão Salvar
         self.btn_salvar = tk.Button(
             self.frm_botoes,
-            text="Salvar",
+            text=(Idioma.t("comum.salvar")),
             width=15
         )
         self.btn_salvar.grid(
@@ -245,11 +244,9 @@ class Veterinario_View:
             padx=5,
             pady=5
         )
-
-        # Botão Alterar
         self.btn_alterar = tk.Button(
             self.frm_botoes,
-            text="Alterar",
+            text=(Idioma.t("comum.alterar")),
             width=15
         )
         self.btn_alterar.grid(
@@ -258,11 +255,9 @@ class Veterinario_View:
             padx=5,
             pady=5
         )
-
-        # Botão Excluir
         self.btn_excluir = tk.Button(
             self.frm_botoes,
-            text="Excluir",
+            text=(Idioma.t("comum.excluir")),
             width=15
         )
         self.btn_excluir.grid(
@@ -271,20 +266,11 @@ class Veterinario_View:
             padx=5,
             pady=5
         )
-
-        # Botão Fechar
         self.btn_fechar = tk.Button(
             self.frm_botoes,
-            text="Fechar",
+            text=(Idioma.t("comum.fechar")),
             width=15
         )
-        self.btn_fechar.grid(
-            row=0,
-            column=4,
-            padx=5,
-            pady=5
-        )
-
         # Treeview
         self.tbl_veterinario = ttk.Treeview(
             self.root,
@@ -332,17 +318,17 @@ class Veterinario_View:
 
         self.tbl_veterinario.heading(
             "id",
-            text="ID"
+            text=(Idioma.t("comum.id"))
         )
 
         self.tbl_veterinario.heading(
             "nome",
-            text="NOME"
+            text=(Idioma.t("comum.nome"))
         )
 
         self.tbl_veterinario.heading(
             "especialidade",
-            text="ESPECIALIDADE"
+            text=(Idioma.t("veterinario.especialidade"))
         )
 
     def configurar_eventos(self):
@@ -439,8 +425,8 @@ class Veterinario_View:
     def confirmar_exclusao(self):
 
         return messagebox.askyesno(
-            "Confirmar exclusão",
-            "Deseja realmente excluir esse veterinário?",
+            (Idioma.t("comum.confirmacao")),
+            (Idioma.t("veterinario.confirmacao_exclusao")),
             parent=self.root
         )
 

@@ -1,4 +1,5 @@
 from app.models.cliente import Cliente
+from app.core.idiomas import Idioma
 
 class Cliente_Controller:
     def __init__(self, dao, view):
@@ -22,10 +23,10 @@ class Cliente_Controller:
 
             self.dao.save(cliente)
             self.get_all()
-            self.view.exibir_mensagem("Cliente cadastrado com sucesso!")
+            self.view.exibir_mensagem(Idioma.t("cliente.cadastro_sucesso" ))
 
         except ValueError as e:
-            self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+            self.view.exibir_mensagem(f"{Idioma.t('comum.erro_prefixo')}{Idioma.t(str(e))}", False)
 
     def get_all(self):
         cliente = self.dao.get_all()
@@ -49,7 +50,7 @@ class Cliente_Controller:
     def update(self):
         try:
             if self.cliente_selecionada is None:
-                self.view.exibir_mensagem("selecione um cliente", False)
+                self.view.exibir_mensagem(Idioma.t("cliente.selecionar"), False)
                 return
 
             nome, telefone, cpf = self.view.ler_dados_cliente()
@@ -62,14 +63,14 @@ class Cliente_Controller:
 
             self.dao.update(self.cliente_selecionada)
             self.get_all()
-            self.view.exibir_mensagem("Cliente atualizado!")
+            self.view.exibir_mensagem(Idioma.t("cliente.atualizacao"))
 
         except ValueError as e:
-            self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+            self.view.exibir_mensagem(f"{Idioma.t('comum.erro_prefixo')}{Idioma.t(str(e))}", False)
 
     def delete(self):
         if self.cliente_selecionada is None:
-            self.view.exibir_mensagem("Selecione um cliente", False)
+            self.view.exibir_mensagem(Idioma.t("cliente.selecionar"), False)
             return
 
         if not self.view.confirmar_exclusao():
@@ -85,17 +86,17 @@ class Cliente_Controller:
                 self.view.limpar_campos()
                 self.get_all()
                 self.view.exibir_mensagem(
-                    "Cliente excluido com sucesso!"
+                    Idioma.t("cliente.exclusao")
                 )
 
             else:
                 self.view.exibir_mensagem(
-                    "Nenhum cliente encontrado!",
+                    Idioma.t("cliente.nao_encontrado"),
                     False
                 )
 
         except Exception as e:
             self.view.exibir_mensagem(
-                "Problemas ao excluir cliente!!",
+                Idioma.t("cliente.problema_exclusao"),
                 False
             )

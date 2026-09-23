@@ -1,5 +1,5 @@
 from app.models.especie import Especie
-
+from app.core.idiomas import Idioma 
 
 class Especie_Controller:
 
@@ -32,14 +32,11 @@ class Especie_Controller:
             self.get_all()
 
             self.view.exibir_mensagem(
-                "Espécie cadastrada com sucesso!"
+                Idioma.t("especie.cadastro")
             )
 
         except ValueError as e:
-            self.view.exibir_mensagem(
-                f"Erro: {str(e)}",
-                False
-            )
+            self.view.exibir_mensagem(f"{Idioma.t('comum.erro_prefixo')}{Idioma.t(str(e))}", False)
 
     def get_all(self):
         especies = self.dao.get_all()
@@ -68,7 +65,7 @@ class Especie_Controller:
         try:
             if self.especie_selecionada is None:
                 self.view.exibir_mensagem(
-                    "Selecione uma espécie da lista!",
+                    Idioma.t("especie.selecione_especie"),
                     False
                 )
                 return
@@ -93,19 +90,16 @@ class Especie_Controller:
             self.get_all()
 
             self.view.exibir_mensagem(
-                "Espécie atualizada com sucesso!"
+                Idioma.t("especie.atualizada")
             )
 
         except ValueError as e:
-            self.view.exibir_mensagem(
-                f"Erro: {str(e)}",
-                False
-            )
+            self.view.exibir_mensagem(f"{Idioma.t('comum.erro_prefixo')}{Idioma.t(str(e))}", False)
 
     def delete(self):
         if self.especie_selecionada is None:
             self.view.exibir_mensagem(
-                "Selecione uma espécie da lista!",
+                Idioma.t("especie.selecione_especie"),
                 False
             )
             return
@@ -124,16 +118,16 @@ class Especie_Controller:
                 self.get_all()
 
                 self.view.exibir_mensagem(
-                    "Espécie excluída com sucesso!"
+                    Idioma.t("especie.exclusao")
                 )
             else:
                 self.view.exibir_mensagem(
-                    "Espécie não encontrada!",
+                    Idioma.t("especie.nao_encontrada"),
                     False
                 )
 
         except Exception as e:
             self.view.exibir_mensagem(
-                f"Problemas ao excluir espécie: {str(e)}",
+                f"{Idioma.t("especie.problema_exclusao")}{Idioma.t(str(e))}",
                 False
             )
