@@ -2,6 +2,7 @@ from app.models.consulta import Consulta
 import tkinter as tk
 from  tkinter import messagebox
 from tkinter import ttk
+from tkcalendar import DateEntry
 
 from app.core.idiomas import Idioma
 
@@ -74,6 +75,29 @@ class Consulta_View:
             pady = 5,
             sticky = "w"
         )
+        self.lbl_data_consulta = tk.Label(
+            self.frm_dados, 
+            text = ("DATA CONSULTA")
+        )
+        self.lbl_data_consulta.grid(
+            row = 1, 
+            column = 0, 
+            padx = 5, 
+            pady = 5, 
+            sticky = "w"
+        )
+        self.txt_data_consulta = DateEntry(
+            self.frm_dados, 
+            width = 40,
+            date_pattern="dd/mm/yyyy"
+        )
+        self.txt_data_consulta.grid(
+            row = 1, 
+            column = 1, 
+            padx = 5, 
+            pady =5, 
+            sticky ="w"
+        )
         self.lbl_horario_consulta = tk.Label(
             self.frm_dados, 
             text = (Idioma.t("consulta.horario"))
@@ -106,28 +130,6 @@ class Consulta_View:
             padx=5,
             pady=5,
             sticky="w"
-        )
-        self.lbl_data_consulta = tk.Label(
-            self.frm_dados, 
-            text = (Idioma.t("consulta.data"))
-        )
-        self.lbl_data_consulta.grid(
-            row = 1, 
-            column = 0, 
-            padx = 5, 
-            pady = 5, 
-            sticky = "w"
-        )
-        self.txt_data_consulta = tk.Entry(
-            self.frm_dados, 
-            width = 40
-        )
-        self.txt_data_consulta.grid(
-            row = 1, 
-            column = 1, 
-            padx = 5, 
-            pady =5, 
-            sticky ="w"
         )
         self.lbl_observacoes = tk.Label(
             self.frm_dados, 
@@ -384,10 +386,9 @@ class Consulta_View:
         self.veterinarios = veterinarios
 
         self.cmb_veterinario["values"] = [
-            veterinario.nome
-            for veterinario in veterinarios
-        ]
-
+        veterinario.nome for veterinario in veterinarios
+    ]
+        
     def get_veterinario_selecionado(self):
         indice = self.cmb_veterinario.current()
 
@@ -395,6 +396,15 @@ class Consulta_View:
             return None
 
         return self.veterinarios[indice]
+    def carregar_veterinarios(self, veterinarios):
+        self.veterinarios = veterinarios
+
+        self.cmb_veterinario["values"] = [
+            veterinario.nome
+            for veterinario in veterinarios
+        ]
+    
+        
 
     def exibir_mensagem(self, mensagem, sucesso = True):
          if sucesso: 
@@ -429,5 +439,5 @@ class Consulta_View:
          self.root.destroy()
 
     def iniciar(self):
-         self.controller.carregar_veterinarios()
-         self.controller.get_all()
+        self.controller.carregar_veterinarios()
+        self.controller.get_all()
