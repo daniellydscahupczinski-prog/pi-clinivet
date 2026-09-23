@@ -1,5 +1,5 @@
 from app.models.aplicacao_vacina import Aplicacao_Vacina
-
+from app.core.idiomas import Idioma
 
 class Aplicacao_Vacina_Controller:
 
@@ -41,15 +41,10 @@ class Aplicacao_Vacina_Controller:
             self.dao.save(aplicacao_vacina)
             self.get_all()
 
-            self.view.exibir_mensagem(
-                "Aplicação da vacina cadastrada com sucesso!"
-            )
+            self.view.exibir_mensagem(Idioma.t("aplicacao_vacina.cadastro_sucesso"))
 
         except ValueError as e:
-            self.view.exibir_mensagem(
-                "Erro: " + str(e),
-                False
-            )
+            self.view.exibir_mensagem(f"{Idioma.t('comum.erro_prefixo')}{Idioma.t(str(e))}", False)
 
     def get_all(self):
         aplicacoes_vacina = self.dao.get_all()
@@ -74,9 +69,7 @@ class Aplicacao_Vacina_Controller:
         try:
             if self.aplicacao_vacina_selecionada is None:
                 self.view.exibir_mensagem(
-                    "Selecione uma aplicação da vacina na lista.",
-                    False
-                )
+                    Idioma.t("aplicacao_vacina.selecionar_aplicacao"),False)
                 return
 
             tipo_servico, data_vacina, horario_vacina, status_vacina, animal_id, vacina_id = (
@@ -99,19 +92,16 @@ class Aplicacao_Vacina_Controller:
             self.get_all()
 
             self.view.exibir_mensagem(
-                "Aplicação da vacina atualizada com sucesso!"
+                Idioma.t("aplicacao_vacina.atualizacao")
             )
 
         except ValueError as e:
-            self.view.exibir_mensagem(
-                "Erro: " + str(e),
-                False
-            )
+            self.view.exibir_mensagem(f"{Idioma.t('comum.erro_prefixo')}{Idioma.t(str(e))}", False)
 
     def delete(self):
         if self.aplicacao_vacina_selecionada is None:
             self.view.exibir_mensagem(
-                "Selecione uma aplicação da vacina na lista.",
+                Idioma.t("aplicacao_vacina.selecionar_aplicacao"),
                 False
             )
             return
@@ -130,17 +120,17 @@ class Aplicacao_Vacina_Controller:
                 self.get_all()
 
                 self.view.exibir_mensagem(
-                    "Aplicação da vacina excluída com sucesso!"
+                   Idioma.t("aplicacao_vacina.exclusao_sucesso")
                 )
 
             else:
                 self.view.exibir_mensagem(
-                    "Aplicação da vacina não encontrada.",
+                    (Idioma.t("aplicacao_vacina.nao_encontrado")),
                     False
                 )
 
         except Exception:
             self.view.exibir_mensagem(
-                "Problemas ao excluir a aplicação da vacina.",
+                Idioma.t("aplicacao_vacina.problema_exclusao"),
                 False
             )

@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
+from app.core.idiomas import Idioma
 
 class Aplicacao_Vacina_View:
 
@@ -16,14 +17,14 @@ class Aplicacao_Vacina_View:
         self.configurar_eventos()
 
     def configurar__janela(self):
-        self.root.title("CRUD de Aplicações de Vacina")
+        self.root.title(Idioma.t("aplicacao_vacina.janela_titulo"))
         self.root.geometry("900x600")
         self.root.resizable(False, False)
 
     def criar_componentes(self):
         self.lbl_titulo = tk.Label(
             self.root,
-            text="Criação de aplicação de vacina",
+            text=(Idioma.t("aplicacao_vacina.titulo")),
             font=("Arial", 16, "bold")
         )
         self.lbl_titulo.grid(
@@ -36,7 +37,7 @@ class Aplicacao_Vacina_View:
 
         self.frm_dados = tk.LabelFrame(
             self.root,
-            text="Dados da Aplicação de Vacina"
+            text=(Idioma.t("aplicacao_vacina.dadso_frame"))
         )
         self.frm_dados.grid(
             row=1,
@@ -53,7 +54,7 @@ class Aplicacao_Vacina_View:
 
         self.lbl_id = tk.Label(
             self.frm_dados,
-            text="ID:"
+            text=(Idioma.t("comum.id"))
         )
         self.lbl_id.grid(
             row=0,
@@ -78,7 +79,7 @@ class Aplicacao_Vacina_View:
 
         self.lbl_tipo_servico = tk.Label(
             self.frm_dados,
-            text="Tipo Serviço:"
+            text=(Idioma.t("aplicacao_vacina.tipo_servico"))
         )
         self.lbl_tipo_servico.grid(
             row=1,
@@ -102,7 +103,7 @@ class Aplicacao_Vacina_View:
 
         self.lbl_data_vacina = tk.Label(
             self.frm_dados,
-            text="Data Vacina:"
+            text=(Idioma.t("aplicacao_vacina.data_vacina"))
         )
         self.lbl_data_vacina.grid(
             row=2,
@@ -126,7 +127,7 @@ class Aplicacao_Vacina_View:
 
         self.lbl_horario_vacina = tk.Label(
             self.frm_dados,
-            text="Horário Vacina:"
+            text=(Idioma.t("aplicacao_vacina.horario_vacina"))
         )
         self.lbl_horario_vacina.grid(
             row=3,
@@ -150,7 +151,7 @@ class Aplicacao_Vacina_View:
 
         self.lbl_status_vacina = tk.Label(
             self.frm_dados,
-            text="Status Vacina:"
+            text=(Idioma.t("aplicacao_vacina.status_vacina"))
         )
         self.lbl_status_vacina.grid(
             row=4,
@@ -174,7 +175,7 @@ class Aplicacao_Vacina_View:
 
         self.lbl_animal_id = tk.Label(
             self.frm_dados,
-            text="Animal ID:"
+            text=(Idioma.t("aplicacao_vacina.animal_id"))
         )
         self.lbl_animal_id.grid(
             row=5,
@@ -198,7 +199,7 @@ class Aplicacao_Vacina_View:
 
         self.lbl_vacina_id = tk.Label(
             self.frm_dados,
-            text="Vacina ID:"
+            text=(Idioma.t("aplicacao_vacina.vacina_id"))
         )
         self.lbl_vacina_id.grid(
             row=6,
@@ -235,7 +236,7 @@ class Aplicacao_Vacina_View:
 
         self.btn_novo = tk.Button(
             self.frm_botoes,
-            text="Novo",
+            text=(Idioma.t("comum.novo")),
             width=15
         )
         self.btn_novo.grid(
@@ -244,10 +245,9 @@ class Aplicacao_Vacina_View:
             padx=5,
             pady=5
         )
-
         self.btn_salvar = tk.Button(
             self.frm_botoes,
-            text="Salvar",
+            text=(Idioma.t("comum.salvar")),
             width=15
         )
         self.btn_salvar.grid(
@@ -256,10 +256,9 @@ class Aplicacao_Vacina_View:
             padx=5,
             pady=5
         )
-
         self.btn_alterar = tk.Button(
             self.frm_botoes,
-            text="Alterar",
+            text=(Idioma.t("comum.alterar")),
             width=15
         )
         self.btn_alterar.grid(
@@ -268,10 +267,9 @@ class Aplicacao_Vacina_View:
             padx=5,
             pady=5
         )
-
         self.btn_excluir = tk.Button(
             self.frm_botoes,
-            text="Excluir",
+            text=(Idioma.t("comum.excluir")),
             width=15
         )
         self.btn_excluir.grid(
@@ -280,10 +278,9 @@ class Aplicacao_Vacina_View:
             padx=5,
             pady=5
         )
-
         self.btn_fechar = tk.Button(
             self.frm_botoes,
-            text="Fechar",
+            text=(Idioma.t("comum.fechar")),
             width=15
         )
         self.btn_fechar.grid(
@@ -361,37 +358,36 @@ class Aplicacao_Vacina_View:
 
         self.tbl_aplicacoes_vacina.heading(
             "id",
-            text="ID"
+            text=(Idioma.t("comum.id"))
         )
 
         self.tbl_aplicacoes_vacina.heading(
             "tipo_servico",
-            text="TIPO SERVIÇO"
+            text=(Idioma.t("aplicacao_vacina.tipo_servico"))
         )
 
         self.tbl_aplicacoes_vacina.heading(
             "data_vacina",
-            text="DATA VACINA"
+            text=(Idioma.t("aplicacao_vacina.data_vacina"))
         )
 
         self.tbl_aplicacoes_vacina.heading(
             "horario_vacina",
-            text="HORÁRIO VACINA"
+            text=(Idioma.t("aplicacao_vacina.horario_vacina"))
         )
-
         self.tbl_aplicacoes_vacina.heading(
             "status_vacina",
-            text="STATUS VACINA"
+            text=(Idioma.t("aplicacao_vacina.status_vacina"))
         )
 
         self.tbl_aplicacoes_vacina.heading(
             "animal_id",
-            text="ANIMAL ID"
+            text=(Idioma.t("aplicacao_vacina.animal_id"))
         )
 
         self.tbl_aplicacoes_vacina.heading(
             "vacina_id",
-            text="VACINA ID"
+            text=(Idioma.t("aplicacao_vacina.vacina_id"))
         )
 
     def configurar_eventos(self):
@@ -512,8 +508,8 @@ class Aplicacao_Vacina_View:
 
     def confirmar_exclusao(self):
         return messagebox.askyesno(
-            "Confirmação",
-            "Deseja realmente excluir esta aplicação de vacina?",
+            (Idioma.t("comum.confirmacao")),
+            (Idioma.t("aplicacao_vacina.confirmacao_exclusao")),
             parent=self.root
         )
 

@@ -1,9 +1,10 @@
 from app.core.database import Database
 import tkinter as tk
 from colorama import init
+from app.views.home_view import Home_View
 
 from app.dao.veterinario_dao import Veterinario_DAO
-from app.views.veterinario_view import Veterinario_View
+from app.views.veterinario_views import Veterinario_View
 from app.controllers.veterinario_controller import Veterinario_Controller
 
 from app.dao.consulta_dao import Consulta_DAO
@@ -28,6 +29,9 @@ class ErpApplication:
         self._database = Database()
 
         self._root = tk.Tk()
+
+        Home_View(root)
+
 
         self._janela_consulta = None
         self._janela_veterinario = None
@@ -106,6 +110,7 @@ class ErpApplication:
         )
 
         self._root.config(menu=menu_principal)
+    
 
     def _abrir_janela(self, atributo_janela, classe_view, controller):
 
@@ -138,6 +143,10 @@ class ErpApplication:
     if __name__ =="__main__":
 
         app = ErpApplication()
+
+        Home_View(root)
+
+    
 
 
 

@@ -1,84 +1,85 @@
+
 from colorama import init, Fore, Style
 from app.core.database import Database
-
+from app.views.home_view import Home_View
+ 
 # Componentes de Raca
 from app.dao.raca_dao import Raca_DAO
 from app.views.raca_views import Raca_View
 from app.controllers.raca_controller import Raca_Controller
-
+ 
 # Componentes de Cliente
 from app.dao.cliente_dao import Cliente_DAO
 from app.dao.animal_dao import Animal_DAO
 from app.views.cliente_views import Cliente_View
 from app.controllers.cliente_controller import Cliente_Controller
-
+ 
 # Componentes de Agendamento
 from app.dao.agendamento_dao import Agendamento_DAO
 from app.views.agendamento_views import Agendamento_View
 from app.controllers.agendamento_controller import Agendamento_Controller
 from app.views.agenda_dia_views import Agenda_Dia_View
-
+ 
 # Componentes de Animal
 from app.dao.animal_dao import Animal_DAO
 from app.views.animal_views import Animal_View
 from app.controllers.animal_controller import Animal_Controller
-
+ 
 # Componentes de Vacina
 from app.dao.vacina_dao import Vacina_DAO
 from app.views.vacina_views import Vacina_View
 from app.controllers.vacina_controller import Vacina_Controller
-
+ 
 # Componentes de Aplicacao_vacina
 from app.dao.aplicacao_vacina_dao import Aplicacao_Vacina_DAO
 from app.views.aplicacao_vacina_views import Aplicacao_Vacina_View
 from app.controllers.aplicacao_vacina_controller import Aplicacao_Vacina_Controller
-
+ 
 # Componentes de Animal
 from app.dao.animal_dao import Animal_DAO
 from app.views.animal_views import Animal_View
 from app.controllers.animal_controller import Animal_Controller
-
+ 
 # Componentes de Vacina
 from app.dao.vacina_dao import Vacina_DAO
 from app.views.vacina_views import Vacina_View
 from app.controllers.vacina_controller import Vacina_Controller
-
+ 
 # Componentes de Aplicacao_Vacina
 from app.dao.aplicacao_vacina_dao import Aplicacao_Vacina_DAO
 from app.views.aplicacao_vacina_views import Aplicacao_Vacina_View
 from app.controllers.aplicacao_vacina_controller import Aplicacao_Vacina_Controller
-
+ 
 from app.dao.veterinario_dao import Veterinario_DAO
 from app.views.veterinario_views import Veterinario_View
 from app.controllers.veterinario_controller import Veterinario_Controller
-
+ 
 from app.dao.consulta_dao import Consulta_DAO
 from app.dao.consulta_veterinario_dao import Consulta_Veterinario_DAO
 from app.views.consulta_views import Consulta_View
 from app.controllers.consulta_controller import Consulta_Controller
-
-
+ 
+ 
 from app.dao.especie_dao import Especie_DAO
 from app.dao.especie_raca_dao import Especie_Raca_DAO
 from app.views.especie_views import Especie_View
 from app.controllers.especie_controller import Especie_Controller
-
-
+ 
+ 
 import tkinter as tk
 from PIL import Image, ImageTk
 
 
 class ErpApplication:
-
+ 
     def __init__(self):
         init(autoreset=True)
-
+ 
         self._database = Database()
-
         self._root = tk.Tk()
-
+ 
         self._usuario_logado = None
-
+ 
         self._janela_raca = None
         self._janela_agendamento = None
         self._janela_cliente = None
@@ -108,7 +109,7 @@ class ErpApplication:
             dao=self._dao_raca,
             view=None
         )
-
+ 
         # ==================================
         # CLIENTE (precisa existir antes do ANIMAL)
         # =================================
@@ -122,7 +123,7 @@ class ErpApplication:
             dao=self._dao_cliente,
             view=None
         )
-
+ 
         # ==================================
         # ANIMAL
         # ==================================
@@ -133,7 +134,7 @@ class ErpApplication:
             raca_dao=self._dao_raca,
             view=None
         )
-
+ 
         # ==================================
         # AGENDAMENTO
         # ==================================
@@ -144,7 +145,7 @@ class ErpApplication:
             dao=self._dao_agendamento,
             view=None
         )
-
+ 
         # ==================================
         # VACINA
         # ==================================
@@ -155,7 +156,7 @@ class ErpApplication:
             dao=self._dao_vacina,
             view=None
         )
-
+ 
         # ==================================
         # APLICACAO_VACINA
         # ==================================
@@ -174,7 +175,7 @@ class ErpApplication:
             vacina_dao=self._dao_vacina,
             view=None
         )
-
+ 
         self._dao_consulta = Consulta_DAO(
             self._database
         )
@@ -203,19 +204,22 @@ class ErpApplication:
             especie_raca_dao = self._dao_especie_raca,
             view = None
         )
-
-
-
+        self._home_view = Home_View(
+            self._root,
+            self
+        )
+ 
+ 
         self._configurar_janela()
         self._criar_menu()
         self._adicionar_marca_dagua()
 
     def _configurar_janela(self):
         titulo = "Sistema Corporativo ERP"
-
+ 
         if self._usuario_logado is not None:
             titulo = f"{titulo} — {self._usuario_logado.nome} ({self._usuario_logado.perfil.nome})"
-
+ 
         self._root.title(titulo)
         self._root.state("zoomed")
         self._root.configure(bg="#FFFCF5")
@@ -266,55 +270,59 @@ class ErpApplication:
         self._label_marca_dagua.lower()
 
     def _criar_menu(self):
+        # Menu de barra superior (opcional, mantido para compatibilidade).
+        # Os botões marrons da Home_View agora reproduzem essas mesmas opções
+        # como menus popup (veja _popup_menu, abrir_cadastros, abrir_menus,
+        # abrir_acessos e sair logo abaixo).
         menu_principal = tk.Menu(self._root)
-
+ 
         menu_cadastros_basicos = tk.Menu(menu_principal, tearoff=0)
-
+ 
         menu_cadastros_basicos.add_command(
             label=("Menu de raca"),
             command=self._abrir_raca
         )
-
+ 
         menu_cadastros_basicos.add_command(
             label=("Menu de cliente"),
             command=self._abrir_cliente
         )
-
+ 
         menu_cadastros_basicos.add_command(
             label=("Menu de agendamento"),
             command=self._abrir_agendamento
         )
-
+ 
         menu_cadastros_basicos.add_command(
             label=("Menu de animal"),
             command=self._abrir_animal
         )
-
+ 
         menu_cadastros_basicos.add_command(
             label=("Menu de vacina"),
             command=self._abrir_vacina
         )
-
+ 
         menu_cadastros_basicos.add_command(
             label=("Menu de aplicação da vacina"),
             command=self._abrir_aplicacao_vacina
         )
-
+ 
         menu_cadastros_basicos.add_command(
             label = "Menu de especies",
             command = self._abrir_especie
         )
-
+ 
         menu_principal.add_cascade(
             label=("Menus"),
             menu=menu_cadastros_basicos
         )
-
+ 
         menu_principal.add_command(
             label=("Agenda do dia"),
             command=self._abrir_agenda_dia
         )
-
+ 
         menu_acessos = tk.Menu(menu_principal, tearoff=0)
         menu_acessos.add_command(
             label="consulta",
@@ -328,14 +336,78 @@ class ErpApplication:
             label="Acessos",
             menu=menu_acessos
         )
-
+ 
         menu_principal.add_command(
             label="Sair",
             command=self._root.destroy
         )
-
+ 
         self._root.config(menu=menu_principal)
-
+ 
+    # ======================================================
+    # FUNÇÕES DOS BOTÕES MARRONS (Home_View)
+    # Cada uma monta um menu popup na posição do clique,
+    # reaproveitando as funções _abrir_* já existentes.
+    # ======================================================
+ 
+    def _popup_menu(self, menu):
+        """Exibe um tk.Menu na posição atual do ponteiro do mouse."""
+        x = self._root.winfo_pointerx()
+        y = self._root.winfo_pointery()
+ 
+        try:
+            menu.tk_popup(x, y)
+        finally:
+            menu.grab_release()
+ 
+    def abrir_cadastros(self):
+        """Botão 'Cadastros Básicos': os 7 cadastros básicos."""
+        menu = tk.Menu(self._root, tearoff=0)
+ 
+        menu.add_command(label="Menu de raça", command=self._abrir_raca)
+        menu.add_command(label="Menu de cliente", command=self._abrir_cliente)
+        menu.add_command(label="Menu de agendamento", command=self._abrir_agendamento)
+        menu.add_command(label="Menu de animal", command=self._abrir_animal)
+        menu.add_command(label="Menu de vacina", command=self._abrir_vacina)
+        menu.add_command(label="Menu de aplicação da vacina", command=self._abrir_aplicacao_vacina)
+        menu.add_command(label="Menu de espécies", command=self._abrir_especie)
+ 
+        self._popup_menu(menu)
+ 
+    def abrir_menus(self):
+        """Botão 'Menus': tudo junto (cadastros + agenda + acessos)."""
+        menu = tk.Menu(self._root, tearoff=0)
+ 
+        menu.add_command(label="Menu de raça", command=self._abrir_raca)
+        menu.add_command(label="Menu de cliente", command=self._abrir_cliente)
+        menu.add_command(label="Menu de agendamento", command=self._abrir_agendamento)
+        menu.add_command(label="Menu de animal", command=self._abrir_animal)
+        menu.add_command(label="Menu de vacina", command=self._abrir_vacina)
+        menu.add_command(label="Menu de aplicação da vacina", command=self._abrir_aplicacao_vacina)
+        menu.add_command(label="Menu de espécies", command=self._abrir_especie)
+ 
+        menu.add_separator()
+        menu.add_command(label="Agenda do dia", command=self._abrir_agenda_dia)
+ 
+        menu.add_separator()
+        menu.add_command(label="Consulta", command=self._abrir_consulta)
+        menu.add_command(label="Veterinários", command=self._abrir_veterinario)
+ 
+        self._popup_menu(menu)
+ 
+    def abrir_acessos(self):
+        """Botão 'Acessos': consulta e veterinários."""
+        menu = tk.Menu(self._root, tearoff=0)
+ 
+        menu.add_command(label="Consulta", command=self._abrir_consulta)
+        menu.add_command(label="Veterinários", command=self._abrir_veterinario)
+ 
+        self._popup_menu(menu)
+ 
+    def sair(self):
+        """Botão 'Sair': fecha a aplicação."""
+        self._root.destroy()
+ 
     def _abrir_janela(
         self,
         atributo_janela,
@@ -346,7 +418,7 @@ class ErpApplication:
             self,
             atributo_janela
         )
-
+ 
         if (
             janela_existente is not None
             and janela_existente.winfo_exists()
@@ -354,66 +426,66 @@ class ErpApplication:
             janela_existente.lift()
             janela_existente.focus_force()
             return
-
+ 
         janela = tk.Toplevel(
             self._root
         )
-
+ 
         setattr(
             self,
             atributo_janela,
             janela
         )
-
+ 
         controller.view = classe_view(
             janela,
             controller
         )
-
+ 
         controller.view.iniciar()
-
+ 
     def _abrir_raca(self):
         self._abrir_janela(
             "_janela_raca",
             Raca_View,
             self._ctrl_raca
         )
-
+ 
     def _abrir_cliente(self):
         self._abrir_janela(
             "_janela_cliente",
             Cliente_View,
             self._ctrl_cliente
         )
-
+ 
     def _abrir_agendamento(self):
         self._abrir_janela(
             "_janela_agendamento",
             Agendamento_View,
             self._ctrl_agendamento
         )
-
+ 
     def _abrir_animal(self):
         self._abrir_janela(
             "_janela_animal",
             Animal_View,
             self._ctrl_animal
         )
-
+ 
     def _abrir_vacina(self):
         self._abrir_janela(
             "_janela_vacina",
             Vacina_View,
             self._ctrl_vacina
         )
-
+ 
     def _abrir_aplicacao_vacina(self):
         self._abrir_janela(
             "_janela_aplicacao_vacina",
             Aplicacao_Vacina_View,
             self._ctrl_aplicacao_vacina
         )
-
+ 
     def _abrir_agenda_dia(self):
         if (
             self._janela_agenda_dia is not None
@@ -422,16 +494,16 @@ class ErpApplication:
             self._janela_agenda_dia.lift()
             self._janela_agenda_dia.focus_force()
             return
-
+ 
         self._janela_agenda_dia = tk.Toplevel(
             self._root
         )
-
+ 
         Agenda_Dia_View(
             self._janela_agenda_dia,
             self._dao_agendamento
         )
-
+ 
     def _abrir_consulta(self):
         self._abrir_janela("_janela_consulta", Consulta_View,
                            self._ctrl_consulta)
@@ -441,11 +513,11 @@ class ErpApplication:
     def _abrir_especie(self):
         self._abrir_janela("_janela_especie", Especie_View, 
                            self._ctrl_especie)
-
+ 
     def run(self):
         self._root.mainloop()
-
-
+ 
+ 
 if __name__ == "__main__":
     app = ErpApplication()
     app.run()

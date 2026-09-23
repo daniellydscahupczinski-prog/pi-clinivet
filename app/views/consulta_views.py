@@ -4,6 +4,8 @@ from  tkinter import messagebox
 from tkinter import ttk
 from tkcalendar import DateEntry
 
+from app.core.idiomas import Idioma
+
 class Consulta_View:
     def __init__(self,root,controller):
         self.root = root
@@ -16,14 +18,14 @@ class Consulta_View:
         self.configurar_eventos()
 
     def configurar_janela(self):
-        self.root.title("CRUD de consultas")
+        self.root.title(Idioma.t("consulta.janela_titulo"))
         self.root.geometry("800x600")
         self.root.resizable(False,False)
 
     def criar_componentes(self):
         self.lbl_titulo = tk.Label(
             self.root,
-            text = ("Cadastro de Consulta"),
+            text = (Idioma.t("consulta.titulo")),
             font = ("Arial", 16, "bold"),
         )
         self.lbl_titulo.grid(
@@ -35,7 +37,7 @@ class Consulta_View:
         )
         self.frm_dados = tk.LabelFrame(
             self.root, 
-            text = (" Dados Consulta ")
+            text = (Idioma.t("consulta.dados"))
         )
         self.frm_dados.grid(
             row = 1, 
@@ -51,7 +53,7 @@ class Consulta_View:
         self.frm_dados.grid_columnconfigure(3, weight = 3)
         self.lbl_id = tk.Label(
             self.frm_dados, 
-            text = ("ID")
+            text = (Idioma.t("comum.id"))
         )
         self.lbl_id.grid(
             row =0,
@@ -98,7 +100,7 @@ class Consulta_View:
         )
         self.lbl_horario_consulta = tk.Label(
             self.frm_dados, 
-            text = ("HORÁRIO CONSULTA")
+            text = (Idioma.t("consulta.horario"))
         )
         self.lbl_horario_consulta.grid(
             row = 2, 
@@ -131,7 +133,7 @@ class Consulta_View:
         )
         self.lbl_observacoes = tk.Label(
             self.frm_dados, 
-            text = ("OBSERVAÇÕES")
+            text = (Idioma.t("consulta.observacao"))
         )
         self.lbl_observacoes.grid(
             row = 3, 
@@ -153,7 +155,7 @@ class Consulta_View:
         )
         self.lbl_veterinario = tk.Label(
             self.frm_dados,
-            text="VETERINÁRIO"
+            text=(Idioma.t("consulta.veterinario"))
         )
 
         self.lbl_veterinario.grid(
@@ -191,52 +193,52 @@ class Consulta_View:
         )
         self.btn_novo = tk.Button(
             self.frm_botoes,
-            text = ("Novo"),
-            width = 15
+            text=(Idioma.t("comum.novo")),
+            width=15
         )
         self.btn_novo.grid(
-            row = 0,
-            column = 0,
-            padx = 5,
-            pady = 5
+            row=0,
+            column=0,
+            padx=5,
+            pady=5
         )
         self.btn_salvar = tk.Button(
             self.frm_botoes,
-            text = ("Salvar"),
-            width = 15
+            text=(Idioma.t("comum.salvar")),
+            width=15
         )
         self.btn_salvar.grid(
-            row = 0,
-            column = 1,
-            padx = 5,
-            pady = 5
-        )        
+            row=0,
+            column=1,
+            padx=5,
+            pady=5
+        )
         self.btn_alterar = tk.Button(
             self.frm_botoes,
-            text = ("Alterar"),
-            width = 15
+            text=(Idioma.t("comum.alterar")),
+            width=15
         )
         self.btn_alterar.grid(
-            row = 0,
-            column = 2,
-            padx = 5,
-            pady = 5
-        )        
+            row=0,
+            column=2,
+            padx=5,
+            pady=5
+        )
         self.btn_excluir = tk.Button(
             self.frm_botoes,
-            text = ("Excluir"),
-            width = 15
+            text=(Idioma.t("comum.excluir")),
+            width=15
         )
         self.btn_excluir.grid(
-            row = 0,
-            column = 3,
-            padx = 5,
-            pady = 5
+            row=0,
+            column=3,
+            padx=5,
+            pady=5
         )
         self.btn_fechar = tk.Button(
             self.frm_botoes,
-            text = ("Fechar"),
-            width = 15
+            text=(Idioma.t("comum.fechar")),
+            width=15
         )
         self.btn_fechar.grid(
             row=0,
@@ -287,24 +289,23 @@ class Consulta_View:
         )
         self.tbl_consulta.heading(
             "id",
-            text = "ID"
+            text = (Idioma.t("comum.id"))
         )
         self.tbl_consulta.heading(
             "data_consulta",
-            text = "DATA_CONSULTA"
-
+            text = (Idioma.t("consulta.data"))
         )
         self.tbl_consulta.heading(
             "horario_consulta",
-            text = "HORARIO_CONSULTA"
+            text = (Idioma.t("consulta.horario"))
         )
         self.tbl_consulta.heading(
             "observacoes",
-            text = "OBSERVAÇÕES"
+            text = (Idioma.t("consulta.observacao"))
         )
         self.tbl_consulta.heading(
              "veterinario",
-             text = "VETERINARIO"
+             text = (Idioma.t("consulta.veterinario"))
         )
     def configurar_eventos(self):
         self.btn_novo.config(
@@ -372,8 +373,8 @@ class Consulta_View:
     def confirmar_exclusao(self):
          
          return messagebox.askyesno(
-              "Confirmado!",
-              "Deseja mesmo excluir esta consulta? ",
+              (Idioma.t("comum.confirmacao")),
+              (Idioma.t("consulta.confirmacao_exclusao")),
               parent= self.root
          )
     def ler_dados_consulta(self):

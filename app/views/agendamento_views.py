@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
+from app.core.idiomas import Idioma
 
 class Agendamento_View:
     def __init__(self, root, controller):
@@ -16,7 +17,7 @@ class Agendamento_View:
         self.configurar_eventos()
 
     def configurar_janela(self):
-        self.root.title((("Crud de agendamentos")))
+        self.root.title(Idioma.t("agendamento.janela_titulo"))
         self.root.geometry("900x600")
         self.root.resizable(False, False)
 
@@ -24,7 +25,7 @@ class Agendamento_View:
     def criar_componentes(self):
         self.lbl_titulo = tk.Label(
             self.root,
-            text = (("Cadastro de agendamento")),
+            text = (Idioma.t("agendamento.titulo")),
             font = ("Arial", 16, "bold"),
         )
         self.lbl_titulo.grid(
@@ -36,7 +37,7 @@ class Agendamento_View:
         )
         self.frm_dados = tk.LabelFrame(
             self.root,
-            text = (("Dados do agendamento"))
+            text = (Idioma.t("agendamento.dados"))
         )
         self.frm_dados.grid(
             row = 1,
@@ -52,7 +53,7 @@ class Agendamento_View:
         self.frm_dados.grid_columnconfigure(3, weight=1)
         self.lbl_id = tk.Label(
             self.frm_dados,
-            text = "ID:"
+            text = (Idioma.t("comum.id"))
         )
         self.lbl_id.grid(
             row = 0,
@@ -75,7 +76,7 @@ class Agendamento_View:
         )
         self.lbl_servico_agendamento = tk.Label(
             self.frm_dados,
-            text = "SERVICOS"
+            text = (Idioma.t("agendamento.servico"))
         )
         self.lbl_servico_agendamento.grid(
             row = 1,
@@ -97,7 +98,7 @@ class Agendamento_View:
         )
         self.lbl_horario_agendamento = tk.Label(
             self.frm_dados,
-            text = "Horarios"
+            text = (Idioma.t("agendamento.horario"))
         )
         self.lbl_horario_agendamento.grid(
             row = 1,
@@ -119,7 +120,7 @@ class Agendamento_View:
         )
         self.lbl_data_agendamento = tk.Label(
             self.frm_dados,
-            text = "Data do agendamento"
+            text = (Idioma.t("agendamento.data_agendamento"))
         )
         self.lbl_data_agendamento.grid(
             row = 2,
@@ -141,7 +142,7 @@ class Agendamento_View:
         )
         self.lbl_status_agendamento = tk.Label(
             self.frm_dados,
-            text = ("Status:")
+            text = (Idioma.t("agendamento.status"))
         )
         self.lbl_status_agendamento.grid(
             row = 2,
@@ -163,7 +164,7 @@ class Agendamento_View:
         )
         self.lbl_animal_id = tk.Label(
             self.frm_dados,
-            text = ("Animal ID:")
+            text = (Idioma.t("agendamento.animal_id"))
         )
         self.lbl_animal_id.grid(
             row = 3,
@@ -197,7 +198,7 @@ class Agendamento_View:
         )
         self.btn_novo = tk.Button(
             self.frm_botoes,
-            text = (("novo")),
+            text = (Idioma.t("comum.novo")),
             width = 15
         )
         self.btn_novo.grid(
@@ -208,7 +209,7 @@ class Agendamento_View:
         )
         self.btn_salvar = tk.Button(
             self.frm_botoes,
-            text = (("salvar")),
+            text = (Idioma.t("comum.salvar")),
             width = 15
         )
         self.btn_salvar.grid(
@@ -219,7 +220,7 @@ class Agendamento_View:
         )
         self.btn_alterar = tk.Button(
             self.frm_botoes,
-            text = (("alterar")),
+            text = (Idioma.t("comum.alterar")),
             width = 15
         )
         self.btn_alterar.grid(
@@ -230,7 +231,7 @@ class Agendamento_View:
         )
         self.btn_excluir = tk.Button(
             self.frm_botoes,
-            text = (("excluir")),
+            text = (Idioma.t("comum.excluir")),
             width = 15
         )
         self.btn_excluir.grid(
@@ -241,7 +242,7 @@ class Agendamento_View:
         )
         self.btn_fechar = tk.Button(
             self.frm_botoes,
-            text = (("fechar")),
+            text = (Idioma.t("comum.fechar")),
             width = 15
         )
         self.btn_fechar.grid(
@@ -306,27 +307,27 @@ class Agendamento_View:
         )
         self.tbl_agendamento.heading(
             "id",
-            text = "ID"
+            text = (Idioma.t("comum.id"))
         )
         self.tbl_agendamento.heading(
             "servico_agendamento",
-            text = "Servicos"
+            text = (Idioma.t("agendamento.servico"))
         )
         self.tbl_agendamento.heading(
             "horario_agendamento",
-            text = "Horario"
+            text = (Idioma.t("agendamento.horario"))
         )
         self.tbl_agendamento.heading(
             "data_agendamento",
-            text = "Data"
+            text = (Idioma.t("agendamento.data"))
         )
         self.tbl_agendamento.heading(
             "status_agendamento",
-            text = "Status do agendamento"
+            text = (Idioma.t("agendamento.status_agendamento"))
         )
         self.tbl_agendamento.heading(
             "animal_id",
-            text = "Animal ID"
+            text = (Idioma.t("agendamento.animal_id"))
         )
     def configurar_eventos(self):
         self.btn_novo.config(
@@ -413,8 +414,8 @@ class Agendamento_View:
     def confirmar_exclusao(self):
 
         return messagebox.askyesno(
-            (("Confirmaçao")),
-            (("Deseja realmente excluir este agendamento?")),
+            (Idioma.t("comum.confirmacao")),
+            (Idioma.t("agendamento.confirmacao_exclusao")),
             parent=self.root
         )
 

@@ -1,4 +1,5 @@
 from app.models.veterinario import Veterinario
+from app.core.idiomas import Idioma
 
 
 class Veterinario_Controller:
@@ -26,10 +27,10 @@ class Veterinario_Controller:
 
             self.dao.save(veterinario)
             self.get_all()
-            self.view.exibir_mensagem("Veterinario Cadastrado com sucesso!")
+            self.view.exibir_mensagem(Idioma.t("veterinario.cadastro"))
 
         except ValueError as e:
-            self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+            self.view.exibir_mensagem(f"{Idioma.t('comum.erro_prefixo')}{Idioma.t(str(e))}", False)
 
     def get_all(self):
         veterinarios = self.dao.get_all()
@@ -53,7 +54,7 @@ class Veterinario_Controller:
     def update(self):
         try:
             if self.veterinario_selecionado is None:
-                self.view.exibir_mensagem("Selecione um veterinario da lista", False)
+                self.view.exibir_mensagem(Idioma.t("veterinario.selecione_veterinario"), False)
                 return
 
             nome, telefone, cpf, rg, especialidade = self.view.ler_dados_veterinario()
@@ -69,14 +70,14 @@ class Veterinario_Controller:
 
             self.dao.update(self.veterinario_selecionado)
             self.get_all()
-            self.view.exibir_mensagem("Veterinario atualizado com sucesso!")
+            self.view.exibir_mensagem(Idioma.t("veterinario.atualizacao"))
 
         except ValueError as e:
-            self.view.exibir_mensagem(f"Erro: {str(e)}", False)
+            self.view.exibir_mensagem(f"{Idioma.t('comum.erro_prefixo')}{Idioma.t(str(e))}", False)
 
     def delete(self):
         if self.veterinario_selecionado is None:
-            self.view.exibir_mensagem("Selecione um veterinario da lista", False)
+            self.view.exibir_mensagem(Idioma.t("veterinario.selecione_veterinario"), False)
             return
 
         if not self.view.confirmar_exclusao():
@@ -89,12 +90,12 @@ class Veterinario_Controller:
                 self.veterinario_selecionado = None
                 self.view.limpar_campos()
                 self.get_all()
-                self.view.exibir_mensagem("Veterinario excluído com sucesso!")
+                self.view.exibir_mensagem(Idioma.t("veterinario.exclusao"))
             else:
-                self.view.exibir_mensagem("Veterinario não encontrado!", False)
+                self.view.exibir_mensagem(Idioma.t("veterinario.nao_encontrado"), False)
 
         except Exception as e:
-            self.view.exibir_mensagem("Erro ao excluir o Veterinário", False)
+            self.view.exibir_mensagem(Idioma.t("veterinario.erro_exclusao"), False)
 
     def fechar(self):
         self.view.fechar()

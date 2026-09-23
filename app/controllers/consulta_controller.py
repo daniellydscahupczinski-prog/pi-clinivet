@@ -1,5 +1,6 @@
 from app.models.consulta import Consulta
 from app.models.consulta_veterinario import Consulta_Veterinario
+from app.core.idiomas import Idioma 
 
 
 class Consulta_Controller:
@@ -33,7 +34,7 @@ class Consulta_Controller:
 
             if veterinario is None:
                 self.view.exibir_mensagem(
-                    "Selecione um veterinário!"
+                    Idioma.t("consulta.selecione_veterionario")
                 )
                 return
 
@@ -55,12 +56,12 @@ class Consulta_Controller:
             self.get_all()
 
             self.view.exibir_mensagem(
-                "Consulta agendada com sucesso!"
+                Idioma.t("consulta.agendamento")
             )
 
         except ValueError:
             self.view.exibir_mensagem(
-                "Erro ao cadastrar consulta!"
+                Idioma.t("consulta.erro_cadastro")
             )
 
     def get_all(self):
@@ -89,19 +90,19 @@ class Consulta_Controller:
     def update(self):
         try:
             if self.consulta_selecionada is None:
-                self.view.exibir_mensagem("Selecione uma consulta da lista: ")
+                self.view.exibir_mensagem(Idioma.t("consulta.selecione_consulta"))
                 return
             data_consulta, horario_consulta, observacoes = self.view.ler_dados_consulta()
             self.consulta_selecionada.atualizar_dados(horario_consulta, data_consulta, observacoes)
             self.consulta_dao.update(self.consulta_selecionada)
             self.get_all()
-            self.view.exibir_mensagem("Consulta Atualizada com Sucesso!")
+            self.view.exibir_mensagem(Idioma.t("consulta.atualizacao"))
         except ValueError as e:
-            self.view.exibir_mensagem(f"Erro: {e}")
+            self.view.exibir_mensagem(f"{Idioma.t('comum.erro_prefixo')}{Idioma.t(str(e))}", False)
 
     def delete(self):
         if self.consulta_selecionada is None:
-            self.view.exibir_mensagem("Seleciona uma consulta da lista: ")
+            self.view.exibir_mensagem(Idioma.t("consulta.selecione_consulta"))
             return
         if not self.view.confirmar_exclusao():
             return
@@ -111,8 +112,8 @@ class Consulta_Controller:
                 self.consulta_selecionada = None
                 self.view.limpar_campos()
                 self.get_all()
-                self.view.exibir_mensagem("Consulta excluída com sucesso!")
+                self.view.exibir_mensagem(Idioma.t("consulta.excluida_sucesso"))
             else:
-                self.view.exibir_mensagem("Consulta não encontrada!")
+                self.view.exibir_mensagem(Idioma.t("consulta.nao_encontrada"))
         except Exception as e:
-            self.view.exibir_mensagem("Erro ao excluir Consulta")
+            self.view.exibir_mensagem(Idioma.t("consulta.erro_exclusao"))

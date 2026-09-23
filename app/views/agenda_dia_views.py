@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 
-
+from app.core.idiomas import Idioma
 class Agenda_Dia_View:
     def __init__(self, root, dao_agendamento):
         self.root = root
@@ -12,14 +12,14 @@ class Agenda_Dia_View:
         self.configurar_treeview()
 
     def configurar_janela(self):
-        self.root.title("Agenda do dia")
+        self.root.title(Idioma.t("agenda.agenda_dia"))
         self.root.geometry("700x500")
         self.root.resizable(False, False)
 
     def criar_componentes(self):
         self.lbl_titulo = tk.Label(
             self.root,
-            text="Agenda por data",
+            text=(Idioma.t("agenda.agenda_data")),
             font=("Arial", 16, "bold")
         )
         self.lbl_titulo.grid(
@@ -32,7 +32,7 @@ class Agenda_Dia_View:
 
         self.lbl_data = tk.Label(
             self.root,
-            text="Data (AAAA-MM-DD):"
+            text=(Idioma.t("agenda.data_dia"))
         )
         self.lbl_data.grid(
             row=1,
@@ -56,7 +56,7 @@ class Agenda_Dia_View:
 
         self.btn_buscar = tk.Button(
             self.root,
-            text="Buscar",
+            text=(Idioma.t("agenda.busca")),
             width=15,
             command=self.buscar
         )
@@ -82,7 +82,7 @@ class Agenda_Dia_View:
 
         self.btn_concluir = tk.Button(
             self.root,
-            text="Marcar concluído",
+            text=(Idioma.t("agenda.marcar_concluido")),
             width=20,
             command=self.marcar_concluido
         )
@@ -126,19 +126,19 @@ class Agenda_Dia_View:
         )
         self.tbl_agenda.heading(
             "id",
-            text="ID"
+            text=(Idioma.t("comum.id"))
         )
         self.tbl_agenda.heading(
             "servico",
-            text="Serviço"
+            text=(Idioma.t("agenda.servico"))
         )
         self.tbl_agenda.heading(
             "horario",
-            text="Horário"
+            text=(Idioma.t("agenda.horario"))
         )
         self.tbl_agenda.heading(
             "status",
-            text="Status"
+            text=(Idioma.t("agenda.status"))
         )
 
     def limpar_treeview(self):
@@ -150,8 +150,8 @@ class Agenda_Dia_View:
 
         if not data:
             messagebox.showerror(
-                "Agenda do dia",
-                "Digite uma data",
+                (Idioma.t("agenda.agenda_dia")),
+                (Idioma.t("agenda.digite_data")),
                 parent=self.root
             )
             return
@@ -177,8 +177,8 @@ class Agenda_Dia_View:
 
         if not selecionado:
             messagebox.showerror(
-                "Agenda do dia",
-                "Selecione um agendamento na lista",
+                (Idioma.t("agenda.agenda_dia")),
+                (Idioma.t("agenda.selecionar_agendamento")),
                 parent=self.root
             )
             return
@@ -190,19 +190,19 @@ class Agenda_Dia_View:
 
         if agendamento is None:
             messagebox.showerror(
-                "Agenda do dia",
-                "Agendamento não encontrado",
+                (Idioma.t("agenda.agenda_dia")),
+                (Idioma.t("agenda.nao_encontrado")),
                 parent=self.root
             )
             return
 
-        agendamento.status_agendamento = "Concluido"
+        agendamento.status_agendamento = (Idioma.t("agenda.concluido"))
 
         self.dao_agendamento.update(agendamento)
 
         messagebox.showinfo(
-            "Agenda do dia",
-            "Agendamento marcado como concluído!",
+            (Idioma.t("agenda.agenda_dia")),
+            (Idioma.t("agenda.marcado_concluido")),
             parent=self.root
         )
 

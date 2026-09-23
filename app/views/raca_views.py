@@ -3,6 +3,8 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
+from app.core.idiomas import Idioma
+
 class Raca_View:
     def __init__(self, root, controller):
         self.root = root
@@ -13,14 +15,14 @@ class Raca_View:
         self.configurar_eventos()
 
     def configurar_janela(self):
-        self.root.title((("CRUD de Racas")))
+        self.root.title(Idioma.t("raca.janela_titulo"))
         self.root.geometry("900x600")
         self.root.resizable(False, False)
 
     def criar_componentes(self):
         self.lbl_titulo = tk.Label(
             self.root,
-            text = (("Cadastro de raca")),
+            text = (Idioma.t("raca.titulo")),
             font = ("Arial", 16, "bold"),
         )
         self.lbl_titulo.grid(
@@ -32,7 +34,7 @@ class Raca_View:
         )
         self.frm_dados = tk.LabelFrame(
             self.root,
-            text = (("dados da raca"))
+            text = (Idioma.t("raca.dados_frame"))
         )
         self.frm_dados.grid(
             row = 1,
@@ -48,7 +50,7 @@ class Raca_View:
         self.frm_dados.grid_columnconfigure(3, weight=1)
         self.lbl_id = tk.Label(
             self.frm_dados,
-            text = "ID:"
+            text = (Idioma.t("comum.id"))
         )
         self.lbl_id.grid(
             row = 0,
@@ -71,7 +73,7 @@ class Raca_View:
         )
         self.lbl_nome = tk.Label(
             self.frm_dados,
-            text = (("Nome"))
+            text = (Idioma.t("comum.nome"))
         )
         self.lbl_nome.grid(
             row = 1,
@@ -105,52 +107,52 @@ class Raca_View:
         )
         self.btn_novo = tk.Button(
             self.frm_botoes,
-            text = (("Novo")),
-            width = 15
+            text=(Idioma.t("comum.novo")),
+            width=15
         )
         self.btn_novo.grid(
-            row = 0,
-            column = 0,
-            padx = 5,
-            pady = 5
+            row=0,
+            column=0,
+            padx=5,
+            pady=5
         )
         self.btn_salvar = tk.Button(
             self.frm_botoes,
-            text = (("Salvar")),
-            width = 15
+            text=(Idioma.t("comum.salvar")),
+            width=15
         )
         self.btn_salvar.grid(
-            row = 0,
-            column = 1,
-            padx = 5,
-            pady = 5
+            row=0,
+            column=1,
+            padx=5,
+            pady=5
         )
         self.btn_alterar = tk.Button(
             self.frm_botoes,
-            text = (("Alterar")),
-            width = 15
+            text=(Idioma.t("comum.alterar")),
+            width=15
         )
         self.btn_alterar.grid(
-            row = 0,
-            column = 2,
-            padx = 5,
-            pady = 5
+            row=0,
+            column=2,
+            padx=5,
+            pady=5
         )
         self.btn_excluir = tk.Button(
             self.frm_botoes,
-            text = (("Excluir")),
-            width = 15
+            text=(Idioma.t("comum.excluir")),
+            width=15
         )
         self.btn_excluir.grid(
-            row = 0,
-            column = 3,
-            padx = 5,
-            pady = 5
+            row=0,
+            column=3,
+            padx=5,
+            pady=5
         )
         self.btn_fechar = tk.Button(
             self.frm_botoes,
-            text = (("Fechar")),
-            width = 15
+            text=(Idioma.t("comum.fechar")),
+            width=15
         )
         self.btn_fechar.grid(
             row = 0,
@@ -192,11 +194,11 @@ class Raca_View:
         )
         self.tbl_raca.heading(
             "id",
-            text = "ID"
+            text = (Idioma.t("comum.id"))
         )
         self.tbl_raca.heading(
             "nome",
-            text = "Nome"
+            text = (Idioma.t("comum.nome"))
         )
 
     def configurar_eventos(self):
@@ -261,8 +263,8 @@ class Raca_View:
     def confirmar_exclusao(self):
 
         return messagebox.askyesno(
-            (("Confirmacao")),
-            (("Deseja realmente excluir esta raca?")),
+            (Idioma.t("comum.confirmacao")),
+            (Idioma.t("especie.confirmacao_exclusao")),
             parent=self.root
         )
 
