@@ -172,6 +172,9 @@ class Idioma:
             "home_view.menus": "Menus",
             "home_view.acesso": "Acessos",
             "home_view.sair": "Sair",
+            "home_vew.frase": "Juntos por mais saúde e bem-estar!",
+            "home_view.cadastro": "cadastros",
+            "home_view.calendario": "calendario",
 
             # Menu principal
             "menu.animal": "Menu de Animal",
@@ -357,6 +360,7 @@ class Idioma:
             "home_view.menus": "Menus",
             "home_view.acesso": "Access",
             "home_view.sair": "Exit",
+
 
             # Menu principal
             "menu.animal": "Animal",
