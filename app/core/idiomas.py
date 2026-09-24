@@ -164,23 +164,46 @@ class Idioma:
             "agenda.concluido": "Concluido",
             "agenda.marcado_concluido": "Agendamento marcado como concluído!",
 
+            # Tela Home_view
+            "home_view.janela": "Sistema Corporativo ERP",
+            "home_view.mensagem_entrada": "BEM VINDO(A)\nÀ CLINIVET!",
+            "home_view.entrada": "Como podemos lhe ajudar hoje?",
+            "home_view.cadastros_basicos": "Cadastros\nBásicos",
+            "home_view.menus": "Menus",
+            "home_view.acesso": "Acessos",
+            "home_view.sair": "Sair",
+            "home_vew.frase": "Juntos por mais saúde e bem-estar!",
+            "home_view.cadastro": "cadastros",
+            "home_view.calendario": "calendario",
+
             # Menu principal
-            "menu.animal": "Animal",
-            "menu.vacina": "Vacina",
-            "menu.aplicacao_vacina": "Aplicação de Vacinas",
-            "menu.agendamento": "Agendamento",
-            "menu.cliente": "Cliente",
-            "menu.raca": "Raça",
+            "menu.animal": "Menu de Animal",
+            "menu.vacina": "Menu de Vacina",
+            "menu.aplicacao_vacina": "Menu de Aplicação de Vacinas",
+            "menu.agendamento": "Menu de Agendamento",
+            "menu.cliente": "Menu de Cliente",
+            "menu.raca": "Menu de Raça",
             "menu.veterinario": "Veterinário",
-            "menu.especie": "Espécie",
+            "menu.especie": "Menu de Espécie",
             "menu.consulta": "Consulta",
-            "menu.idioma": "Idioma",
+            "menu.idioma": "Menu de Idioma",
             "menu.sair": "Sair",
             "menu.data_nascimento": "Data de Nascimento:",
 
         },
         "en": { #ingles
-            # Comuns a várias telas
+            
+            # Comuns 
+            "comum.id": "ID", 
+            "comum.nome": "Name",
+            "comum.novo": "New",
+            "comum.salvar": "Save",
+            "comum.alterar": "Update",
+            "comum.excluir": "Delete",
+            "comum.fechar": "Close",
+            "comum.cancelar": "Cancel",
+            "comum.confirmacao": "Confirmation",
+            "comum.erro_prefixo": "Error: ",
 
             #Tela de Animal
             "animal.janela_titulo": "Animal CRUD",
@@ -328,6 +351,16 @@ class Idioma:
             "agenda.nao_encontrado": "Schedule not found",
             "agenda.concluido": "Completed",
             "agenda.marcado_concluido": "Appointment marked as completed!",
+
+            # Tela Home_view
+            "home_view.janela": "ERP Corporate System",
+            "home_view.mensagem_entrada": "WELCOME TO CLINIVET!",
+            "home_view.entrada": "How can we help you today?",
+            "home_view.cadastros_basicos": "Basic Registrations",
+            "home_view.menus": "Menus",
+            "home_view.acesso": "Access",
+            "home_view.sair": "Exit",
+
 
             # Menu principal
             "menu.animal": "Animal",
