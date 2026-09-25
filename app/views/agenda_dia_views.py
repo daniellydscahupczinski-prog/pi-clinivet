@@ -4,6 +4,13 @@ from tkinter import messagebox
 
 from app.core.idiomas import Idioma
 class Agenda_Dia_View:
+
+    # Paleta de cores dos botões (mesmo padrão usado na Home_View,
+    # pra manter o visual consistente em todas as telas do sistema).
+    COR_BOTAO = "#C09B7A"
+    COR_BOTAO_ATIVO = "#AD8563"
+    COR_TEXTO_BOTAO = "#3F2A1D"
+
     def __init__(self, root, dao_agendamento):
         self.root = root
         self.dao_agendamento = dao_agendamento
@@ -58,6 +65,12 @@ class Agenda_Dia_View:
             self.root,
             text=(Idioma.t("agenda.busca")),
             width=15,
+            bg=self.COR_BOTAO,
+            fg=self.COR_TEXTO_BOTAO,
+            activebackground=self.COR_BOTAO_ATIVO,
+            activeforeground=self.COR_TEXTO_BOTAO,
+            relief="flat",
+            cursor="hand2",
             command=self.buscar
         )
         self.btn_buscar.grid(
@@ -84,6 +97,12 @@ class Agenda_Dia_View:
             self.root,
             text=(Idioma.t("agenda.marcar_concluido")),
             width=20,
+            bg=self.COR_BOTAO,
+            fg=self.COR_TEXTO_BOTAO,
+            activebackground=self.COR_BOTAO_ATIVO,
+            activeforeground=self.COR_TEXTO_BOTAO,
+            relief="flat",
+            cursor="hand2",
             command=self.marcar_concluido
         )
         self.btn_concluir.grid(

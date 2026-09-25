@@ -7,6 +7,13 @@ from tkinter import ttk
 
 
 class Especie_View:
+
+    # Paleta de cores dos botões (mesmo padrão usado na Home_View,
+    # pra manter o visual consistente em todas as telas do sistema).
+    COR_BOTAO = "#C09B7A"
+    COR_BOTAO_ATIVO = "#AD8563"
+    COR_TEXTO_BOTAO = "#3F2A1D"
+
     def __init__(self, root, controller):
         self.root = root
         self.controller = controller
@@ -90,19 +97,69 @@ class Especie_View:
             columnspan=4,
         )
 
-        self.btn_novo = tk.Button(self.frm_botoes, text=(Idioma.t("comum.novo")), width=15)
+        self.btn_novo = tk.Button(
+            self.frm_botoes,
+            text=(Idioma.t("comum.novo")),
+            width=15,
+            bg=self.COR_BOTAO,
+            fg=self.COR_TEXTO_BOTAO,
+            activebackground=self.COR_BOTAO_ATIVO,
+            activeforeground=self.COR_TEXTO_BOTAO,
+            relief="flat",
+            cursor="hand2"
+        )
         self.btn_novo.grid(row=0, column=0, padx=5, pady=5)
 
-        self.btn_salvar = tk.Button(self.frm_botoes, text=(Idioma.t("comum.salvar")), width=15)
+        self.btn_salvar = tk.Button(
+            self.frm_botoes,
+            text=(Idioma.t("comum.salvar")),
+            width=15,
+            bg=self.COR_BOTAO,
+            fg=self.COR_TEXTO_BOTAO,
+            activebackground=self.COR_BOTAO_ATIVO,
+            activeforeground=self.COR_TEXTO_BOTAO,
+            relief="flat",
+            cursor="hand2"
+        )
         self.btn_salvar.grid(row=0, column=1, padx=5, pady=5)
 
-        self.btn_alterar = tk.Button(self.frm_botoes, text=(Idioma.t("comum.alterar")), width=15)
+        self.btn_alterar = tk.Button(
+            self.frm_botoes,
+            text=(Idioma.t("comum.alterar")),
+            width=15,
+            bg=self.COR_BOTAO,
+            fg=self.COR_TEXTO_BOTAO,
+            activebackground=self.COR_BOTAO_ATIVO,
+            activeforeground=self.COR_TEXTO_BOTAO,
+            relief="flat",
+            cursor="hand2"
+        )
         self.btn_alterar.grid(row=0, column=2, padx=5, pady=5)
 
-        self.btn_excluir = tk.Button(self.frm_botoes, text=(Idioma.t("comum.excluir")), width=15)
+        self.btn_excluir = tk.Button(
+            self.frm_botoes,
+            text=(Idioma.t("comum.excluir")),
+            width=15,
+            bg=self.COR_BOTAO,
+            fg=self.COR_TEXTO_BOTAO,
+            activebackground=self.COR_BOTAO_ATIVO,
+            activeforeground=self.COR_TEXTO_BOTAO,
+            relief="flat",
+            cursor="hand2"
+        )
         self.btn_excluir.grid(row=0, column=3, padx=5, pady=5)
 
-        self.btn_fechar = tk.Button(self.frm_botoes, text=(Idioma.t("comum.fechar")), width=15)
+        self.btn_fechar = tk.Button(
+            self.frm_botoes,
+            text=(Idioma.t("comum.fechar")),
+            width=15,
+            bg=self.COR_BOTAO,
+            fg=self.COR_TEXTO_BOTAO,
+            activebackground=self.COR_BOTAO_ATIVO,
+            activeforeground=self.COR_TEXTO_BOTAO,
+            relief="flat",
+            cursor="hand2"
+        )
         self.btn_fechar.grid(row=0, column=4, padx=5, pady=5)
 
         # Tabela de espécies (antes não existia!)

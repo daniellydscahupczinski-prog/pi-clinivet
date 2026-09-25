@@ -7,6 +7,13 @@ from tkcalendar import DateEntry
 from app.core.idiomas import Idioma
 
 class Consulta_View:
+
+    # Paleta de cores dos botões (mesmo padrão usado na Home_View,
+    # pra manter o visual consistente em todas as telas do sistema).
+    COR_BOTAO = "#C09B7A"
+    COR_BOTAO_ATIVO = "#AD8563"
+    COR_TEXTO_BOTAO = "#3F2A1D"
+
     def __init__(self,root,controller):
         self.root = root
         self.veterinarios = []
@@ -194,7 +201,13 @@ class Consulta_View:
         self.btn_novo = tk.Button(
             self.frm_botoes,
             text=(Idioma.t("comum.novo")),
-            width=15
+            width=15,
+            bg=self.COR_BOTAO,
+            fg=self.COR_TEXTO_BOTAO,
+            activebackground=self.COR_BOTAO_ATIVO,
+            activeforeground=self.COR_TEXTO_BOTAO,
+            relief="flat",
+            cursor="hand2"
         )
         self.btn_novo.grid(
             row=0,
@@ -205,7 +218,13 @@ class Consulta_View:
         self.btn_salvar = tk.Button(
             self.frm_botoes,
             text=(Idioma.t("comum.salvar")),
-            width=15
+            width=15,
+            bg=self.COR_BOTAO,
+            fg=self.COR_TEXTO_BOTAO,
+            activebackground=self.COR_BOTAO_ATIVO,
+            activeforeground=self.COR_TEXTO_BOTAO,
+            relief="flat",
+            cursor="hand2"
         )
         self.btn_salvar.grid(
             row=0,
@@ -216,7 +235,13 @@ class Consulta_View:
         self.btn_alterar = tk.Button(
             self.frm_botoes,
             text=(Idioma.t("comum.alterar")),
-            width=15
+            width=15,
+            bg=self.COR_BOTAO,
+            fg=self.COR_TEXTO_BOTAO,
+            activebackground=self.COR_BOTAO_ATIVO,
+            activeforeground=self.COR_TEXTO_BOTAO,
+            relief="flat",
+            cursor="hand2"
         )
         self.btn_alterar.grid(
             row=0,
@@ -227,7 +252,13 @@ class Consulta_View:
         self.btn_excluir = tk.Button(
             self.frm_botoes,
             text=(Idioma.t("comum.excluir")),
-            width=15
+            width=15,
+            bg=self.COR_BOTAO,
+            fg=self.COR_TEXTO_BOTAO,
+            activebackground=self.COR_BOTAO_ATIVO,
+            activeforeground=self.COR_TEXTO_BOTAO,
+            relief="flat",
+            cursor="hand2"
         )
         self.btn_excluir.grid(
             row=0,
@@ -238,7 +269,13 @@ class Consulta_View:
         self.btn_fechar = tk.Button(
             self.frm_botoes,
             text=(Idioma.t("comum.fechar")),
-            width=15
+            width=15,
+            bg=self.COR_BOTAO,
+            fg=self.COR_TEXTO_BOTAO,
+            activebackground=self.COR_BOTAO_ATIVO,
+            activeforeground=self.COR_TEXTO_BOTAO,
+            relief="flat",
+            cursor="hand2"
         )
         self.btn_fechar.grid(
             row=0,

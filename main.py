@@ -60,7 +60,6 @@ from app.dao.consulta_veterinario_dao import Consulta_Veterinario_DAO
 from app.views.consulta_views import Consulta_View
 from app.controllers.consulta_controller import Consulta_Controller
  
- 
 from app.dao.especie_dao import Especie_DAO
 from app.dao.especie_raca_dao import Especie_Raca_DAO
 from app.views.especie_views import Especie_View
@@ -92,12 +91,11 @@ class ErpApplication:
         self._janela_veterinario = None
         self._janela_especie = None
 
-        # Guarda a referência da imagem da marca d'água (obrigatório no Tkinter,
-        # senão o Python descarta a imagem da memória e ela some da tela)
+        
         self._img_marca_dagua = None
         self._label_marca_dagua = None
 
-         # ================================
+        # ================================
         # RACA
         # ================================
         self._dao_raca = Raca_DAO(
@@ -112,7 +110,7 @@ class ErpApplication:
         )
  
         # ==================================
-        # CLIENTE (precisa existir antes do ANIMAL)
+        # CLIENTE (precisa estar antes do ANIMAL)
         # =================================
         self._dao_animal = Animal_DAO(
             self._database
@@ -176,7 +174,10 @@ class ErpApplication:
             vacina_dao=self._dao_vacina,
             view=None
         )
- 
+
+        # ==================================
+        # CONSULTA
+        # ==================================
         self._dao_consulta = Consulta_DAO(
             self._database
         )
@@ -192,6 +193,10 @@ class ErpApplication:
             consulta_veterinario_dao = self._dao_consulta_veterinario,
             view = None
         )
+
+        # ==================================
+        # VETERINÁRIO
+        # ==================================
         self._ctrl_veterinario = Veterinario_Controller(
             dao = self._dao_veterinario,
             view = None
@@ -209,7 +214,6 @@ class ErpApplication:
             self._root,
             self
         )
- 
  
         self._configurar_janela()
         self._criar_menu()
@@ -248,7 +252,7 @@ class ErpApplication:
             )
             return
 
-        # Redimensiona mantendo a proporção (ajuste 'largura' ao seu gosto)
+        # Redimensiona mantendo a proporção 
         largura = 380
         proporcao = largura / img.width
         altura = int(img.height * proporcao)
@@ -262,19 +266,14 @@ class ErpApplication:
             bg="#FFFCF5",
             bd=0
         )
-        # Ancorada no canto inferior direito, com uma margem de 30px.
-        # Para centralizar em vez disso, troque por:
-        #   self._label_marca_dagua.place(relx=0.5, rely=0.5, anchor="center")
+       
         self._label_marca_dagua.place(
             relx=1.0, rely=1.0, anchor="se", x=-30, y=-30
         )
         self._label_marca_dagua.lower()
 
     def _criar_menu(self):
-        # Menu de barra superior (opcional, mantido para compatibilidade).
-        # Os botões marrons da Home_View agora reproduzem essas mesmas opções
-        # como menus popup (veja _popup_menu, abrir_cadastros, abrir_menus,
-        # abrir_acessos e sair logo abaixo).
+    
         menu_principal = tk.Menu(self._root)
  
         menu_cadastros_basicos = tk.Menu(menu_principal, tearoff=0)
@@ -324,7 +323,6 @@ class ErpApplication:
             command = self._abrir_veterinario
         )
 
-
         # ===========================
         # IDIOMA
         # ===========================
@@ -360,7 +358,6 @@ class ErpApplication:
         Idioma.definir(
             codigo
         )
-
         self._criar_menu()
 
     def _selecionar_portugues(self):
@@ -368,20 +365,11 @@ class ErpApplication:
         self._mudar_idioma(
             "pt"
         )
-
     def _selecionar_ingles(self):
 
         self._mudar_idioma(
             "en"
         )
-
-       
- 
-    # ======================================================
-    # FUNÇÕES DOS BOTÕES MARRONS (Home_View)
-    # Cada uma monta um menu popup na posição do clique,
-    # reaproveitando as funções _abrir_* já existentes.
-    # ======================================================
  
     def _popup_menu(self, menu):
         """Exibe um tk.Menu na posição atual do ponteiro do mouse."""
@@ -429,7 +417,6 @@ class ErpApplication:
         self._popup_menu(menu)
  
     def abrir_acessos(self):
-        """Botão 'Acessos': consulta e veterinários."""
         menu = tk.Menu(self._root, tearoff=0)
  
         menu.add_command(label=(Idioma.t("menu.consulta")), command=self._abrir_consulta)
@@ -438,7 +425,6 @@ class ErpApplication:
         self._popup_menu(menu)
  
     def sair(self):
-        """Botão 'Sair': fecha a aplicação."""
         self._root.destroy()
  
     def _abrir_janela(
