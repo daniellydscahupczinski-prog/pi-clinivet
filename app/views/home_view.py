@@ -15,6 +15,13 @@ _MESES_PT = {
     9: "setembro", 10: "outubro", 11: "novembro", 12: "dezembro",
 }
 
+# Nomes dos meses em inglês, usados quando o idioma atual é "en".
+_MESES_EN = {
+    1: "January", 2: "February", 3: "March", 4: "April",
+    5: "May", 6: "June", 7: "July", 8: "August",
+    9: "September", 10: "October", 11: "November", 12: "December",
+}
+
 
 class Home_View:
 
@@ -54,6 +61,11 @@ class Home_View:
         self.configurar_janela()
         self.criar_componentes()
 
+        # Se inscreve para ser avisada automaticamente sempre que o
+        # idioma do sistema for trocado (Idioma.definir(...)), sem
+        # precisar que a tela seja fechada e reaberta.
+        Idioma.registrar_observador(self.atualizar_idioma)
+
     def configurar_janela(self):
 
         self.root.title(Idioma.t("home_view.janela"))
@@ -63,6 +75,44 @@ class Home_View:
         self.root.configure(
             bg=self.COR_FUNDO
         )
+
+    # ==========================================================
+    # ATUALIZAÇÃO DE IDIOMA
+    # ==========================================================
+    # Chamado automaticamente pela classe Idioma (via observador)
+    # toda vez que o idioma do sistema for trocado. Atualiza todos
+    # os textos já desenhados na tela, sem precisar recriá-la.
+    def atualizar_idioma(self):
+        self.root.title(Idioma.t("home_view.janela"))
+
+        self.lbl_titulo.config(text=Idioma.t("home_view.mensagem_entrada"))
+        self.lbl_subtitulo.config(text=Idioma.t("home_view.entrada"))
+
+        self.btn_cadastros.config(text=Idioma.t("home_view.cadastros_basicos"))
+        self.btn_menus.config(text=Idioma.t("home_view.menus"))
+        self.btn_acessos.config(text=Idioma.t("home_view.acesso"))
+        self.btn_sair.config(text=Idioma.t("home_view.sair"))
+
+        self.lbl_hoje_e.config(text=self._t("home_view.hoje_e", "Hoje é:"))
+        self.lbl_data.config(text=self._texto_data_atual())
+        self.lbl_rodape.config(
+            text=self._t("home_view.rodape", "Juntos por mais saúde e bem-estar!")
+        )
+
+    # ==========================================================
+    # DATA FORMATADA NO IDIOMA ATUAL
+    # ==========================================================
+    def _texto_data_atual(self):
+        hoje = datetime.date.today()
+
+        if Idioma.ATUAL == "en":
+            # Formato americano: "September 24, 2026"
+            mes = _MESES_EN[hoje.month]
+            return f"{mes} {hoje.day}, {hoje.year}"
+
+        # Formato em português: "24 de setembro de 2026"
+        mes = _MESES_PT[hoje.month]
+        return f"{hoje.day:02d} de {mes} de {hoje.year}"
 
     # ==========================================================
     # TRADUÇÃO COM FALLBACK
@@ -239,8 +289,7 @@ class Home_View:
 
         # --- cartão "Hoje é: ..." (coluna direita) ---
 
-        hoje = datetime.date.today()
-        texto_data = f"{hoje.day:02d} de {_MESES_PT[hoje.month]} de {hoje.year}"
+        texto_data = self._texto_data_atual()
 
         self.frm_data = tk.Frame(
             self.frm_topo,
@@ -261,23 +310,25 @@ class Home_View:
         frm_data_textos = tk.Frame(self.frm_data, bg=self.COR_CARTAO)
         frm_data_textos.pack(side="left")
 
-        tk.Label(
+        self.lbl_hoje_e = tk.Label(
             frm_data_textos,
             text=self._t("home_view.hoje_e", "Hoje é:"),
             font=("Georgia", 13),
             bg=self.COR_CARTAO,
             fg=self.COR_TEXTO_ESCURO,
             justify="left"
-        ).pack(anchor="w")
+        )
+        self.lbl_hoje_e.pack(anchor="w")
 
-        tk.Label(
+        self.lbl_data = tk.Label(
             frm_data_textos,
             text=texto_data,
             font=("Georgia", 15, "bold"),
             bg=self.COR_CARTAO,
             fg=self.COR_TEXTO_ESCURO,
             justify="left"
-        ).pack(anchor="w")
+        )
+        self.lbl_data.pack(anchor="w")
 
         # =====================================
         # ÁREA DOS BOTÕES (com a marca d'água atrás)
@@ -444,7 +495,7 @@ class Home_View:
             bg=self.COR_FUNDO
         ).pack(side="left", padx=(0, 10))
 
-        tk.Label(
+        self.lbl_rodape = tk.Label(
             self.frm_rodape_esquerda,
             text=self._t(
                 "home_view.rodape",
@@ -453,7 +504,8 @@ class Home_View:
             font=("Georgia", 13, "italic"),
             bg=self.COR_FUNDO,
             fg=self.COR_TEXTO_ESCURO
-        ).pack(side="left")
+        )
+        self.lbl_rodape.pack(side="left")
 
         # duas patinhas decorativas no canto direito, como na referência
         icone_pata_direita = self._criar_icone("pata", tamanho=24, cor="#C09B7A")

@@ -20,6 +20,7 @@ class Idioma:
             #Tela de Animal
             "animal.janela_titulo": "CRUD de Animais",
             "animal.titulo" : "Cadastro de animal",
+            "animal.data_nascimento": "Data de Nascimento:",
             "animal.dados_frame": "Dados do Animal",
             "animal.sexo": "Sexo:",
             "animal.peso": "Peso:",
@@ -98,7 +99,10 @@ class Idioma:
             "agendamento.servico": "Serviços",
             "agendamento.horario": "Horarios",
             "agendamento.data_agendamento": "Data do agendamento",
+            "agendamento.data": "Data",
             "agendamento.status": "Status:",
+            "agendamento.status_agendamento": "Status",
+            "agendamento.animal_id": "Animal ID:",
             "agendamento.confirmacao_exclusao": "Deseja realmente excluir este agendamento?",
             "agendamento.cadastro_sucesso": "Agendamento cadastrado",
             "agendamento.selecione_agendamento": "Selecione um agendamento da lista",
@@ -128,6 +132,7 @@ class Idioma:
             "consulta.horario": "Horário de consulta",
             "consulta.data": "Data da consulta",
             "consulta.observacao": "Observações",
+            "consulta.veterinario": "Veterinário",
             "consulta.confirmacao_exclusao": "Deseja mesmo excluir esta consulta?",
             "consulta.selecione_veterionario": "Selecione um veterinário!",
             "consulta.agendamento": "Consulta agendada com sucesso!",
@@ -158,6 +163,10 @@ class Idioma:
             "agenda.agenda_data": "Agenda por data",
             "agenda.data_dia": "Data (AAAA-MM-DD):",
             "agenda.busca": "Buscar",
+            "agenda.digite_data": "Digite uma data para buscar.",
+            "agenda.servico": "Serviço",
+            "agenda.horario": "Horário",
+            "agenda.status": "Status",
             "agenda.marcar_concluido": "Marcar concluído",
             "agenda.selecionar_agendamento": "Selecione um agendamento na lista",
             "agenda.nao_encontrado": "Agendamento não encontrado",
@@ -175,6 +184,8 @@ class Idioma:
             "home_vew.frase": "Juntos por mais saúde e bem-estar!",
             "home_view.cadastro": "cadastros",
             "home_view.calendario": "calendario",
+            "home_view.hoje_e": "Hoje é:",
+            "home_view.rodape": "Juntos por mais saúde e bem-estar!",
 
             # Menu principal
             "menu.animal": "Menu de Animal",
@@ -208,6 +219,7 @@ class Idioma:
             #Tela de Animal
             "animal.janela_titulo": "Animal CRUD",
             "animal.titulo" : "Animal Registration",
+            "animal.data_nascimento": "Date of Birth:",
             "animal.dados_frame": "Animal Details",
             "animal.sexo": "Sex:",
             "animal.peso": "Weight:",
@@ -286,7 +298,10 @@ class Idioma:
             "agendamento.servico": "Services",
             "agendamento.horario": "Schedules",
             "agendamento.data_agendamento": "Appointment Date",
+            "agendamento.data": "Date",
             "agendamento.status": "Status:",
+            "agendamento.status_agendamento": "Status",
+            "agendamento.animal_id": "Animal ID:",
             "agendamento.confirmacao_exclusao": "Do you really want to delete this appointment?",
             "agendamento.cadastro_sucesso": "Appointment registered",
             "agendamento.selecione_agendamento": "Select an appointment from the list",
@@ -316,6 +331,7 @@ class Idioma:
             "consulta.horario": "Consultation Time",
             "consulta.data": "Consultation Date",
             "consulta.observacao": "Notes",
+            "consulta.veterinario": "Veterinarian",
             "consulta.confirmacao_exclusao": "Do you really want to delete this consultation?",
             "consulta.selecione_veterionario": "Select a veterinarian!",
             "consulta.agendamento": "Consultation successfully scheduled!",
@@ -346,6 +362,10 @@ class Idioma:
             "agenda.agenda_data": "Schedule by date",
             "agenda.data_dia": "Date (YYYY-MM-DD):",
             "agenda.busca": "Search",
+            "agenda.digite_data": "Enter a date to search.",
+            "agenda.servico": "Service",
+            "agenda.horario": "Time",
+            "agenda.status": "Status",
             "agenda.marcar_concluido": "Mark as completed",
             "agenda.selecionar_agendamento": "Select an appointment from the list",
             "agenda.nao_encontrado": "Schedule not found",
@@ -360,6 +380,8 @@ class Idioma:
             "home_view.menus": "Menus",
             "home_view.acesso": "Access",
             "home_view.sair": "Exit",
+            "home_view.hoje_e": "Today is:",
+            "home_view.rodape": "Together for more health and well-being!",
 
 
             # Menu principal
@@ -378,9 +400,28 @@ class Idioma:
             }
     }
 
+    # Lista de funções que devem ser avisadas sempre que o idioma mudar.
+    # Serve pra telas que ficam abertas o tempo todo (como a Home_View)
+    # atualizarem seus textos sozinhas, sem precisar ser recriadas.
+    _observadores = []
+
+    @classmethod
+    def registrar_observador(cls, callback):
+        """
+        Registra uma função que será chamada (sem argumentos)
+        toda vez que o idioma for alterado via Idioma.definir().
+        """
+        if callback not in cls._observadores:
+            cls._observadores.append(callback)
+
     @classmethod # é usado quando tem algum atributo que eu quero que os metodos acessem e modifiquem eles
     def definir(cls, codigo): #cls = um self, que eu passo a propria classe como referencia
         cls.ATUAL = codigo # no codigo eu determino o idioma 
+
+        # Avisa todo mundo que se inscreveu que o idioma mudou,
+        # pra quem já está na tela (como a Home_View) se atualizar sozinho.
+        for callback in cls._observadores:
+            callback()
 
     @classmethod
     def t(cls, chave): # t = é um metodo normalmente de tradução 
