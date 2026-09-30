@@ -1,6 +1,6 @@
 from app.models.consulta import Consulta
 from app.models.consulta_veterinario import Consulta_Veterinario
-from app.core.idiomas import Idioma 
+from app.core.idiomas import Idioma
 
 
 class Consulta_Controller:
@@ -9,11 +9,13 @@ class Consulta_Controller:
         consulta_veterinario_dao,
         consulta_dao,
         veterinario_dao,
+        animal_dao,
         view
     ):
         self.consulta_veterinario_dao = consulta_veterinario_dao
         self.consulta_dao = consulta_dao
         self.veterinario_dao = veterinario_dao
+        self.animal_dao = animal_dao
         self.view = view
         self.consulta_selecionada = None
 
@@ -24,6 +26,10 @@ class Consulta_Controller:
     def carregar_veterinarios(self):
         veterinarios = self.veterinario_dao.get_all()
         self.view.carregar_veterinarios(veterinarios)
+
+    def carregar_animais(self):
+        animais = self.animal_dao.get_all()
+        self.view.carregar_animais(animais)
 
     def save(self):
         try:
@@ -38,6 +44,14 @@ class Consulta_Controller:
                 )
                 return
 
+            animal = self.view.get_animal_selecionado()
+
+            if animal is None:
+                self.view.exibir_mensagem(
+                    Idioma.t("consulta.selecione_animal")
+                )
+                return
+
             consulta = Consulta(
                 None,
                 data_consulta,
@@ -45,7 +59,17 @@ class Consulta_Controller:
                 observacoes
             )
 
-            self.consulta_dao.save(consulta)
+            resultado = self.consulta_dao.save(
+                consulta,
+                animal.id,
+                veterinario.id
+            )
+
+            if resultado is None:
+                self.view.exibir_mensagem(
+                    Idioma.t("consulta.erro_cadastro")
+                )
+                return
 
             consulta_veterinario = Consulta_Veterinario(
                 consulta.id,

@@ -151,6 +151,15 @@ class Raca_DAO(DAO):
 
         try:
 
+            cursor.execute(
+                """
+                    DELETE
+                    FROM ESPECIE_RACA
+                    WHERE RACA_ID = %s
+                """,
+                (id,)
+            )
+
             sql = """
                     DELETE
                     FROM raca

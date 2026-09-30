@@ -1,45 +1,53 @@
+from datetime import datetime
 from app.dao.dao import DAO
 from app.models.consulta import Consulta
 
 class Consulta_DAO(DAO):
     def __init__(self, database):
         super().__init__(database)
-        
 
-    def save(self,consulta):
+    def save(self, consulta, animal_id, veterinario_id):
         conexao, cursor = self.conectar()
-        try: 
+        try:
+            data_sql = datetime.strptime(
+                consulta.data_consulta,
+                "%d/%m/%Y"
+            ).strftime("%Y-%m-%d")
+
             if not self.horario_disponivel(
-            consulta.data_consulta,
-            consulta.horario_consulta
+                data_sql,
+                consulta.horario_consulta
             ):
                 return None
-            sql = """ 
-                        INSERT INTO CONSULTA 
-                        (DATA_CONSULTA, HORARIO_CONSULTA, OBSERVACOES)
-                        VALUES (%s,%s,%s)
+
+            sql = """
+                        INSERT INTO CONSULTA
+                        (DATA_CONSULTA, HORARIO_CONSULTA, OBSERVACOES, ANIMAL_ID, VETERINARIO_ID)
+                        VALUES (%s,%s,%s,%s,%s)
                     """
-            cursor.execute(sql,(
-                consulta.data_consulta,
+            cursor.execute(sql, (
+                data_sql,
                 consulta.horario_consulta,
-                consulta.observacoes
+                consulta.observacoes,
+                animal_id,
+                veterinario_id
             ))
             conexao.commit()
             consulta.id = cursor.lastrowid
             return consulta
-        except Exception: 
+        except Exception:
             conexao.rollback()
             raise
         finally:
-            self.desconectar(cursor,conexao)
+            self.desconectar(cursor, conexao)
 
     def get_all(self):
         conexao, cursor = self.conectar()
         try:
             sql = """
-                        SELECT ID, DATA_CONSULTA, 
+                        SELECT ID, DATA_CONSULTA,
                         HORARIO_CONSULTA, OBSERVACOES, VETERINARIO_ID
-                        FROM CONSULTA ORDER BY 
+                        FROM CONSULTA ORDER BY
                         DATA_CONSULTA
                     """
             cursor.execute(sql)
@@ -58,18 +66,18 @@ class Consulta_DAO(DAO):
                 )
             return consultas
         finally:
-            self.desconectar(cursor,conexao)
+            self.desconectar(cursor, conexao)
 
     def get_by_id(self, id):
         conexao, cursor = self.conectar()
-        try: 
+        try:
             sql = """
                     SELECT ID, DATA_CONSULTA,
                     HORARIO_CONSULTA, OBSERVACOES, VETERINARIO_ID
                     FROM CONSULTA
                     WHERE ID = %s
                 """
-            cursor.execute(sql,(id,))
+            cursor.execute(sql, (id,))
             registro = cursor.fetchone()
             if registro is None:
                 return None
@@ -80,53 +88,52 @@ class Consulta_DAO(DAO):
                 registro[3],
                 registro[4]
             )
-           
-        finally: 
-            self.desconectar(cursor,conexao)
-        
 
-    def update(self,consulta):
+        finally:
+            self.desconectar(cursor, conexao)
+
+    def update(self, consulta):
         conexao, cursor = self.conectar()
         try:
             sql = """
-                        UPDATE CONSULTA SET 
+                        UPDATE CONSULTA SET
                         DATA_CONSULTA = %s,
-                        HORARIO_CONSULTA = %s, 
+                        HORARIO_CONSULTA = %s,
                         OBSERVACOES = %s
-                        WHERE 
+                        WHERE
                         ID = %s
 """
-            cursor.execute(sql,(
-                            consulta.data_consulta,
-                            consulta.horario_consulta,
-                            consulta.observacoes,
-                            consulta.id
-                ))
+            cursor.execute(sql, (
+                consulta.data_consulta,
+                consulta.horario_consulta,
+                consulta.observacoes,
+                consulta.id
+            ))
             conexao.commit()
             sucesso = cursor.rowcount > 0
             return sucesso
         except Exception:
             conexao.rollback()
-            raise 
-        finally: 
+            raise
+        finally:
             self.desconectar(cursor, conexao)
 
-    def delete(self,id):
+    def delete(self, id):
         conexao, cursor = self.conectar()
-        try: 
+        try:
             sql = """
-                    DELETE FROM CONSULTA 
+                    DELETE FROM CONSULTA
                     WHERE ID = %s
 
 """
-            cursor.execute(sql,(id,))
+            cursor.execute(sql, (id,))
             conexao.commit()
             sucesso = cursor.rowcount > 0
             return sucesso
-        except Exception: 
+        except Exception:
             conexao.rollback()
             raise
-        finally: 
+        finally:
             self.desconectar(cursor, conexao)
 
     def horario_disponivel(self, data_consulta, horario_consulta):

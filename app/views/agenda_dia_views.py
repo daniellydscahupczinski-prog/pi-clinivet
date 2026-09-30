@@ -4,10 +4,8 @@ from tkinter import messagebox
 
 from app.core.idiomas import Idioma
 class Agenda_Dia_View:
-
-    # Paleta de cores dos botões (mesmo padrão usado na Home_View,
-    # pra manter o visual consistente em todas as telas do sistema).
-    COR_BOTAO = "#C09B7A"
+    
+    COR_BOTAO = "#C09B7A" # estas são as paletas de cores dos botões da interface
     COR_BOTAO_ATIVO = "#AD8563"
     COR_TEXTO_BOTAO = "#3F2A1D"
 
