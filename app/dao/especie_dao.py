@@ -114,9 +114,7 @@ class Especie_DAO(DAO):
     def delete(self, id):
         conexao, cursor = self.conectar()
         try:
-            # Descobre automaticamente todas as tabelas/colunas que têm
-            # chave estrangeira apontando para ESPECIE.ID (ex: ESPECIE_RACA,
-            # ANIMAL, etc.) e apaga os vínculos antes de excluir a espécie.
+        
             cursor.execute(
                 """
                 SELECT TABLE_NAME, COLUMN_NAME

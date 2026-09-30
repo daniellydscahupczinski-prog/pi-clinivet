@@ -191,6 +191,7 @@ class ErpApplication:
             consulta_dao = self._dao_consulta,
             veterinario_dao = self._dao_veterinario,
             consulta_veterinario_dao = self._dao_consulta_veterinario,
+            animal_dao = self._dao_animal,
             view = None
         )
 
@@ -252,7 +253,6 @@ class ErpApplication:
             )
             return
 
-        # Redimensiona mantendo a proporção 
         largura = 380
         proporcao = largura / img.width
         altura = int(img.height * proporcao)

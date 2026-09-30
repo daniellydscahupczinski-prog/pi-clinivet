@@ -6,9 +6,7 @@ from PIL import Image, ImageDraw, ImageTk
 from app.core.idiomas import Idioma
 
 
-# Nomes dos meses em português, usados no cartão "Hoje é: ...".
-# Evita depender de locale do sistema operacional (que costuma dar
-# problema em máquinas Windows sem o locale pt_BR instalado).
+# Nomes dos meses em português, q pode ser usado no cartão "Hoje é: ...".
 _MESES_PT = {
     1: "janeiro", 2: "fevereiro", 3: "março", 4: "abril",
     5: "maio", 6: "junho", 7: "julho", 8: "agosto",
@@ -25,11 +23,7 @@ _MESES_EN = {
 
 class Home_View:
 
-    # Caminho do arquivo da marca d'água (logo CliniVet).
-    # Calculado a partir da localização deste arquivo
-    # (app/views/home_view.py), então funciona não importa
-    # de onde você execute o main.py.
-    # app/views/home_view.py -> sobe 1 nível -> app/ -> assets/watermark.png
+
     _DIR_APP = os.path.dirname(
         os.path.dirname(os.path.abspath(__file__))
     )
@@ -37,7 +31,7 @@ class Home_View:
         _DIR_APP, "assets", "watermark.png"
     )
 
-    # Tamanho (em pixels) que a marca d'água terá na tela.
+    # Tamanho (em pixels) que terá na tela.
     TAMANHO_MARCA_DAGUA = (800, 700)
 
     # Paleta de cores usada em toda a tela.
@@ -53,17 +47,14 @@ class Home_View:
         self.root = root
         self.controller = controller
 
-        # Precisa manter referência das imagens, senão o
-        # garbage collector do Python apaga e elas somem da tela.
+        
         self._watermark_photo = None
         self._icones = {}
 
         self.configurar_janela()
         self.criar_componentes()
 
-        # Se inscreve para ser avisada automaticamente sempre que o
-        # idioma do sistema for trocado (Idioma.definir(...)), sem
-        # precisar que a tela seja fechada e reaberta.
+       
         Idioma.registrar_observador(self.atualizar_idioma)
 
     def configurar_janela(self):
@@ -79,9 +70,7 @@ class Home_View:
     # ==========================================================
     # ATUALIZAÇÃO DE IDIOMA
     # ==========================================================
-    # Chamado automaticamente pela classe Idioma (via observador)
-    # toda vez que o idioma do sistema for trocado. Atualiza todos
-    # os textos já desenhados na tela, sem precisar recriá-la.
+   
     def atualizar_idioma(self):
         self.root.title(Idioma.t("home_view.janela"))
 
@@ -100,13 +89,13 @@ class Home_View:
         )
 
     # ==========================================================
-    # DATA FORMATADA NO IDIOMA ATUAL
+    # DATA FORMATADA NO IDIOMA ESCOLHIDO
     # ==========================================================
     def _texto_data_atual(self):
         hoje = datetime.date.today()
 
         if Idioma.ATUAL == "en":
-            # Formato americano: "September 24, 2026"
+        # Formato em ingles: "September 24, 2026"
             mes = _MESES_EN[hoje.month]
             return f"{mes} {hoje.day}, {hoje.year}"
 
@@ -115,11 +104,9 @@ class Home_View:
         return f"{hoje.day:02d} de {mes} de {hoje.year}"
 
     # ==========================================================
-    # TRADUÇÃO COM FALLBACK
+    # TRADUÇÃO 
     # ==========================================================
-    # Algumas chaves novas (rodapé, "Hoje é:") podem não existir
-    # ainda no arquivo de idiomas. Esse helper tenta traduzir e,
-    # se a chave não existir, usa o texto padrão em português.
+    
     def _t(self, chave, padrao):
         try:
             texto = Idioma.t(chave)
@@ -131,19 +118,14 @@ class Home_View:
 
         return texto
 
-    # ==========================================================
-    # ÍCONES (desenhados em código, sem depender de arquivos)
-    # ==========================================================
+    # ====================================
+    # ÍCONES 
+    # ====================================
 
     def _criar_icone(self, tipo, tamanho=30, cor="#3F2A1D"):
-        """
-        Desenha um ícone simples em memória (com PIL) e devolve um
-        ImageTk.PhotoImage pronto para usar em Label/Button.
-        'tipo' pode ser: 'cadastros', 'menus', 'acessos', 'sair',
-        'calendario' ou 'pata'.
-        """
+       
 
-        escala = 4  # desenha maior e reduz depois, fica mais suave
+        escala = 4 
         s = tamanho * escala
 
         img = Image.new("RGBA", (s, s), (0, 0, 0, 0))
@@ -152,7 +134,7 @@ class Home_View:
         largura_linha = max(2, int(s * 0.06))
 
         if tipo == "cadastros":
-            # Prancheta com uma pessoa: retângulo + "clipe" no topo + círculo
+           
             d.rounded_rectangle(
                 [margem, margem * 1.6, s - margem, s - margem],
                 radius=s * 0.08, outline=cor, width=largura_linha
@@ -170,7 +152,7 @@ class Home_View:
             )
 
         elif tipo == "menus":
-            # Lista: três linhas horizontais com marcador
+            
             y_pos = [s * 0.28, s * 0.5, s * 0.72]
             for y in y_pos:
                 d.ellipse(
@@ -183,7 +165,7 @@ class Home_View:
                 )
 
         elif tipo == "acessos":
-            # Duas pessoas (círculo + "corpo") sobrepostas
+           
             r = s * 0.15
             cx1, cy = s * 0.36, s * 0.36
             cx2 = s * 0.6
@@ -203,7 +185,7 @@ class Home_View:
             )
 
         elif tipo == "sair":
-            # Porta com seta apontando para fora
+           
             d.rounded_rectangle(
                 [margem, margem, s * 0.55, s - margem],
                 radius=s * 0.06, outline=cor, width=largura_linha
@@ -240,14 +222,14 @@ class Home_View:
         img = img.resize((tamanho, tamanho), Image.LANCZOS)
         foto = ImageTk.PhotoImage(img)
 
-        # Mantém referência para não ser descartada pelo garbage collector.
+       
         self._icones[f"{tipo}_{tamanho}_{cor}"] = foto
         return foto
 
     def criar_componentes(self):
 
         # =====================================
-        # TOPO: título/subtítulo (esquerda) + cartão de data (direita)
+        # TOPO: título/subtítulo
         # =====================================
 
         self.frm_topo = tk.Frame(
@@ -263,8 +245,7 @@ class Home_View:
 
         self.frm_topo.grid_columnconfigure(0, weight=1)
 
-        # --- título + subtítulo (coluna esquerda) ---
-
+        # título e subtítulo
         self.frm_textos = tk.Frame(self.frm_topo, bg=self.COR_FUNDO)
         self.frm_textos.grid(row=0, column=0, sticky="w")
 
@@ -287,8 +268,7 @@ class Home_View:
         )
         self.lbl_subtitulo.pack(anchor="w", pady=(8, 0))
 
-        # --- cartão "Hoje é: ..." (coluna direita) ---
-
+        # cartão "Hoje é:"
         texto_data = self._texto_data_atual()
 
         self.frm_data = tk.Frame(
@@ -331,11 +311,9 @@ class Home_View:
         self.lbl_data.pack(anchor="w")
 
         # =====================================
-        # ÁREA DOS BOTÕES (com a marca d'água atrás)
+        # ÁREA DOS BOTÕES 
         # =====================================
-        # Usamos um Frame + .place() (em vez de .grid()) porque
-        # .place() permite sobrepor widgets: a marca d'água fica
-        # "embaixo" e os botões ficam "em cima", na mesma área.
+        
 
         self.frm_botoes = tk.Frame(
             self.root,
@@ -348,7 +326,7 @@ class Home_View:
         )
 
         # -------------------------------------
-        # MARCA D'ÁGUA (fica atrás dos botões)
+        # MARCA D'ÁGUA 
         # -------------------------------------
 
         self._criar_marca_dagua()
@@ -507,7 +485,7 @@ class Home_View:
         )
         self.lbl_rodape.pack(side="left")
 
-        # duas patinhas decorativas no canto direito, como na referência
+        # duas patinhas de decoração 
         icone_pata_direita = self._criar_icone("pata", tamanho=24, cor="#C09B7A")
 
         self.frm_rodape_direita = tk.Frame(self.frm_rodape, bg=self.COR_FUNDO)

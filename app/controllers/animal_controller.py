@@ -21,10 +21,19 @@ class Animal_Controller:
                 self.view.ler_dados_animal()
             )
 
+            try:
+                data_convertida = Data_Utils.string_para_data(data_nascimento)
+            except ValueError:
+                self.view.exibir_mensagem(
+                    "Você digitou a data de nascimento em um formato inválido. Digite no formato dd/mm/aaaa.",
+                    False
+                )
+                return
+
             animal = Animal(
                 None,
                 nome,
-                Data_Utils.string_para_data(data_nascimento),
+                data_convertida,
                 sexo,
                 peso,
                 cliente_id,
@@ -88,9 +97,19 @@ class Animal_Controller:
             nome, data_nascimento, sexo, peso, cliente, especie, raca = (
                 self.view.ler_dados_animal()
             )
+
+            try:
+                data_convertida = Data_Utils.string_para_data(data_nascimento)
+            except ValueError:
+                self.view.exibir_mensagem(
+                    (Idioma.t("animal.data_invalida")),
+                    False
+                )
+                return
+
             self.animal_selecionado.atualizar_dados(
                 nome,
-                Data_Utils.string_para_data(data_nascimento),
+                data_convertida,
                 sexo,
                 peso,
                 cliente,

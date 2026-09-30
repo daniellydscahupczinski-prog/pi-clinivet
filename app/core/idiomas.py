@@ -33,6 +33,7 @@ class Idioma:
             "animal.exclusao": "Animal excluído com sucesso!",
             "animal.nao_encontrado": "Animal não encontrado.",
             "animal.problema_exclusao": "Problemas ao excluir animal",
+            "animal.data_invalida" : "Você digitou a data de nascimento em um formato inválido. Digite no formato dd/mm/aaaa.",
 
             #Tela de Aplicacao_vacina
             "aplicacao_vacina.janela_titulo": "CRUD de Aplicações de Vacina",
@@ -232,6 +233,7 @@ class Idioma:
             "animal.exclusao": "Animal deleted successfully!",
             "animal.nao_encontrado": "Animal not found.",
             "animal.problema_exclusao": "Error deleting animal",
+            "animal.data_invalida" : "You entered your date of birth in an invalid format. Please enter it in the format dd/mm/yyyy.",
 
             #Tela de Aplicacao_vacina
             "aplicacao_vacina.janela_titulo": "Vaccine Administration CRUD",
@@ -399,10 +401,6 @@ class Idioma:
             "menu.data_nascimento": "Date of Birth:",
             }
     }
-
-    # Lista de funções que devem ser avisadas sempre que o idioma mudar.
-    # Serve pra telas que ficam abertas o tempo todo (como a Home_View)
-    # atualizarem seus textos sozinhas, sem precisar ser recriadas.
     _observadores = []
 
     @classmethod
@@ -418,8 +416,7 @@ class Idioma:
     def definir(cls, codigo): #cls = um self, que eu passo a propria classe como referencia
         cls.ATUAL = codigo # no codigo eu determino o idioma 
 
-        # Avisa todo mundo que se inscreveu que o idioma mudou,
-        # pra quem já está na tela (como a Home_View) se atualizar sozinho.
+
         for callback in cls._observadores:
             callback()
 

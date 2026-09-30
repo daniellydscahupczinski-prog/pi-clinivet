@@ -8,8 +8,7 @@ from tkinter import ttk
 
 class Especie_View:
 
-    # Paleta de cores dos botões (mesmo padrão usado na Home_View,
-    # pra manter o visual consistente em todas as telas do sistema).
+    # Paleta de cores
     COR_BOTAO = "#C09B7A"
     COR_BOTAO_ATIVO = "#AD8563"
     COR_TEXTO_BOTAO = "#3F2A1D"

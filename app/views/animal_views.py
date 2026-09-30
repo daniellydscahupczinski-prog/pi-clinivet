@@ -8,8 +8,6 @@ from tkinter import ttk
 
 class Animal_View:
 
-    # Paleta de cores dos botões (mesmo padrão usado na Home_View,
-    # pra manter o visual consistente em todas as telas do sistema).
     COR_BOTAO = "#C09B7A"
     COR_BOTAO_ATIVO = "#AD8563"
     COR_TEXTO_BOTAO = "#3F2A1D"
@@ -446,7 +444,7 @@ class Animal_View:
             self.controller.selecionar_animal
         )
 
-    def preencher_campos(self, animal):
+    def preencher_campos(self, animal, cliente=None, especie=None, raca=None):
         self.limpar_campos()
         self.txt_id.config(state="normal")
         self.txt_id.insert(
@@ -583,7 +581,4 @@ class Animal_View:
         self.root.destroy()
 
     def iniciar(self):
-        self.controller.carregar_clientes()
-        self.controller.carregar_especie()
-        self.controller.carregar_raca()
         self.controller.get_all()

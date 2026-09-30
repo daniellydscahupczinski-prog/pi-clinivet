@@ -16,14 +16,11 @@ class Especie_Controller:
     def save(self):
         try:
             nome = self.view.ler_dados_especie()
-            raca = self.view.get_raca_selecionada()  # levanta ValueError se nada selecionado
+            raca = self.view.get_raca_selecionada()
 
             especie = Especie(None, nome)
 
             novo_id = self.dao.save(especie)
-            # Só sobrescrevemos especie.id se o dao realmente retornar um
-            # número (lastrowid). Se ele retornar outra coisa (ex: a própria
-            # especie), confiamos que o dao já preencheu especie.id sozinho.
             if isinstance(novo_id, int):
                 especie.id = novo_id
 

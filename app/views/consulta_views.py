@@ -8,8 +8,7 @@ from app.core.idiomas import Idioma
 
 class Consulta_View:
 
-    # Paleta de cores dos botões (mesmo padrão usado na Home_View,
-    # pra manter o visual consistente em todas as telas do sistema).
+ 
     COR_BOTAO = "#C09B7A"
     COR_BOTAO_ATIVO = "#AD8563"
     COR_TEXTO_BOTAO = "#3F2A1D"
@@ -17,6 +16,7 @@ class Consulta_View:
     def __init__(self,root,controller):
         self.root = root
         self.veterinarios = []
+        self.animais = []
         self.controller = controller
        
         self.configurar_janela()
@@ -186,13 +186,39 @@ class Consulta_View:
             pady=5,
             sticky="w"
         )
+        self.lbl_animal = tk.Label(
+            self.frm_dados,
+            text="Animal"
+        )
+
+        self.lbl_animal.grid(
+            row=5,
+            column=0,
+            padx=5,
+            pady=5,
+            sticky="w"
+        )
+
+        self.cmb_animal = ttk.Combobox(
+            self.frm_dados,
+            width=37,
+            state="readonly"
+        )
+
+        self.cmb_animal.grid(
+            row=5,
+            column=1,
+            padx=5,
+            pady=5,
+            sticky="w"
+        )
         self.frm_botoes = tk.Frame(
             self.frm_dados,
             border = 2,
             relief = "groove"
         )
         self.frm_botoes.grid(
-            row = 5,
+            row = 6,
             column = 0,
             padx = 10,
             pady = 5,
@@ -401,6 +427,7 @@ class Consulta_View:
             self.cmb_horario_consulta.delete(0,tk.END)
             self.txt_observacoes.delete(0, tk.END)
             self.cmb_veterinario.delete(0, tk.END)
+            self.cmb_animal.set("")
     def limpar_treeview(self):
          for item in self.tbl_consulta.get_children():
               self.tbl_consulta.delete(item)
@@ -440,8 +467,22 @@ class Consulta_View:
             veterinario.nome
             for veterinario in veterinarios
         ]
-    
-        
+
+    def carregar_animais(self, animais):
+        self.animais = animais
+
+        self.cmb_animal["values"] = [
+            animal.nome
+            for animal in animais
+        ]
+
+    def get_animal_selecionado(self):
+        indice = self.cmb_animal.current()
+
+        if indice == -1:
+            return None
+
+        return self.animais[indice]
 
     def exibir_mensagem(self, mensagem, sucesso = True):
          if sucesso: 
@@ -477,4 +518,5 @@ class Consulta_View:
 
     def iniciar(self):
         self.controller.carregar_veterinarios()
+        self.controller.carregar_animais()
         self.controller.get_all()
