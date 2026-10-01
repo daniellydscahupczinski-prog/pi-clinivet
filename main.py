@@ -1,4 +1,3 @@
-
 from colorama import init, Fore, Style
 from app.core.database import Database
 from app.views.home_view import Home_View
@@ -142,6 +141,7 @@ class ErpApplication:
         )
         self._ctrl_agendamento = Agendamento_Controller(
             dao=self._dao_agendamento,
+            animal_dao=self._dao_animal,
             view=None
         )
  
