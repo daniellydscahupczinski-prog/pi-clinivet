@@ -5,14 +5,20 @@ class Agendamento_Controller:
     def __init__(
         self,
         dao,
+        animal_dao,
         view
     ):
         self.dao = dao
+        self.animal_dao = animal_dao
         self.view = view
         self.agendamento_selecionado = None
 
     def new(self):
         self.view.limpar_campos()
+
+    def carregar_animais(self):
+        animais = self.animal_dao.get_all()
+        self.view.carregar_animais(animais)
 
     def save(self):
         try:
@@ -41,13 +47,14 @@ class Agendamento_Controller:
             self.agendamento_selecionado = self.dao.get_by_id(
                 id_agendamento
             )
+            self.view.preencher_campos(self.agendamento_selecionado)
         except IndexError:
             pass
 
     def update(self):
         try:
             if self.agendamento_selecionado is None:
-                self.view.exibir_mensagem(Idioma.t("agendamento.selecione_agendamento", False))
+                self.view.exibir_mensagem(Idioma.t("agendamento.selecione_agendamento"), False)
                 return
             servico_agendamento, horario_agendamento, data_agendamento, status_agendamento, animal_id = self.view.ler_dados_agendamento()
             self.agendamento_selecionado.atualizar_dados(
@@ -64,7 +71,7 @@ class Agendamento_Controller:
             self.view.exibir_mensagem(f"{Idioma.t('comum.erro_prefixo')}{Idioma.t(str(e))}", False)
     def delete(self):
         if self.agendamento_selecionado is None:
-            self.view.exibir_mensagem(Idioma.t("agendamento.selecione_agendamento", False))
+            self.view.exibir_mensagem(Idioma.t("agendamento.selecione_agendamento"), False)
             return
         if not self.view.confirmar_exclusao():
             return
@@ -76,6 +83,6 @@ class Agendamento_Controller:
                 self.get_all()
                 self.view.exibir_mensagem(Idioma.t("agendamento.exclusao"))
             else:
-                self.view.exibir_mensagem(Idioma.t("agendamento.nao_encontrado", False))
+                self.view.exibir_mensagem(Idioma.t("agendamento.nao_encontrado"), False)
         except Exception as e:
-            self.view.exibir_mensagem(Idioma.t("agendamento.problema_exclusao", False))
+            self.view.exibir_mensagem(Idioma.t("agendamento.problema_exclusao"), False)

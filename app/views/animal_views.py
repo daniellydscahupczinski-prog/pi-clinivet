@@ -16,6 +16,12 @@ class Animal_View:
         self.root = root
         self.controller = controller
         self._animais = []
+        self._clientes = {}
+        self._clientes_por_id = {}
+        self._especies = {}
+        self._especies_por_id = {}
+        self._racas = {}
+        self._racas_por_id = {}
         self.configurar__janela()
         self.criar_componentes()
         self.configurar_treeview()
@@ -176,9 +182,10 @@ class Animal_View:
             pady=5,
             sticky="w"
         )
-        self.txt_cliente_id = tk.Entry(
+        self.txt_cliente_id = ttk.Combobox(
             self.frm_dados,
-            width=20
+            width=37,
+            state="readonly"
         )
         self.txt_cliente_id.grid(
             row=5,
@@ -198,9 +205,10 @@ class Animal_View:
             pady=5,
             sticky="w"
         )
-        self.txt_especie_id = tk.Entry(
+        self.txt_especie_id = ttk.Combobox(
             self.frm_dados,
-            width=20
+            width=37,
+            state="readonly"
         )
         self.txt_especie_id.grid(
             row=6,
@@ -220,9 +228,10 @@ class Animal_View:
             pady=5,
             sticky="w"
         )
-        self.txt_raca_id = tk.Entry(
+        self.txt_raca_id = ttk.Combobox(
             self.frm_dados,
-            width=20
+            width=37,
+            state="readonly"
         )
         self.txt_raca_id.grid(
             row=7,
@@ -380,15 +389,15 @@ class Animal_View:
         )
         self.tbl_animais.column(
             "cliente_id",
-            width=5
+            width=120
         )
         self.tbl_animais.column(
             "especie_id",
-            width=5
+            width=120
         )
         self.tbl_animais.column(
             "raca_id",
-            width=5
+            width=120
         )
         self.tbl_animais.heading(
             "id",
@@ -444,6 +453,33 @@ class Animal_View:
             self.controller.selecionar_animal
         )
 
+    def carregar_cliente(self, clientes):
+        self._clientes = {}
+        self._clientes_por_id = {}
+        for cliente in clientes:
+            texto = f"{cliente.nome} - {cliente.id}"
+            self._clientes[texto] = cliente.id
+            self._clientes_por_id[cliente.id] = texto
+        self.txt_cliente_id["values"] = list(self._clientes.keys())
+
+    def carregar_especie(self, especies):
+        self._especies = {}
+        self._especies_por_id = {}
+        for especie in especies:
+            texto = f"{especie.nome} - {especie.id}"
+            self._especies[texto] = especie.id
+            self._especies_por_id[especie.id] = texto
+        self.txt_especie_id["values"] = list(self._especies.keys())
+
+    def carregar_raca(self, racas):
+        self._racas = {}
+        self._racas_por_id = {}
+        for raca in racas:
+            texto = f"{raca.nome} - {raca.id}"
+            self._racas[texto] = raca.id
+            self._racas_por_id[raca.id] = texto
+        self.txt_raca_id["values"] = list(self._racas.keys())
+
     def preencher_campos(self, animal, cliente=None, especie=None, raca=None):
         self.limpar_campos()
         self.txt_id.config(state="normal")
@@ -468,17 +504,14 @@ class Animal_View:
             0,
             animal.peso
         )
-        self.txt_cliente_id.insert(
-            0,
-            animal.cliente_id
+        self.txt_cliente_id.set(
+            self._clientes_por_id.get(animal.cliente_id, "")
         )
-        self.txt_especie_id.insert(
-            0,
-            animal.especie_id
+        self.txt_especie_id.set(
+            self._especies_por_id.get(animal.especie_id, "")
         )
-        self.txt_raca_id.insert(
-            0,
-            animal.raca_id
+        self.txt_raca_id.set(
+            self._racas_por_id.get(animal.raca_id, "")
         )
 
     def limpar_campos(self):
@@ -506,18 +539,9 @@ class Animal_View:
             0,
             tk.END
         )
-        self.txt_cliente_id.delete(
-            0,
-            tk.END
-        )
-        self.txt_especie_id.delete(
-            0,
-            tk.END
-        )
-        self.txt_raca_id.delete(
-            0,
-            tk.END
-        )
+        self.txt_cliente_id.set("")
+        self.txt_especie_id.set("")
+        self.txt_raca_id.set("")
         self.txt_nome.focus()
 
     def limpar_treeview(self):
@@ -540,9 +564,9 @@ class Animal_View:
         data_nascimento = self.txt_data_nascimento.get()
         sexo = self.txt_sexo.get()
         peso = self.txt_peso.get()
-        cliente_id = self.txt_cliente_id.get()
-        especie_id = self.txt_especie_id.get()
-        raca_id = self.txt_raca_id.get()
+        cliente_id = self._clientes.get(self.txt_cliente_id.get())
+        especie_id = self._especies.get(self.txt_especie_id.get())
+        raca_id = self._racas.get(self.txt_raca_id.get())
         return nome, data_nascimento, sexo, peso, cliente_id, especie_id, raca_id
 
     def exibir_mensagem(self, mensagem, sucesso=True):
@@ -571,9 +595,9 @@ class Animal_View:
                     animal.data_nascimento,
                     animal.sexo,
                     animal.peso,
-                    animal.cliente_id,
-                    animal.especie_id,
-                    animal.raca_id,
+                    self._clientes_por_id.get(animal.cliente_id, animal.cliente_id),
+                    self._especies_por_id.get(animal.especie_id, animal.especie_id),
+                    self._racas_por_id.get(animal.raca_id, animal.raca_id),
                 )
             )
 
@@ -581,4 +605,7 @@ class Animal_View:
         self.root.destroy()
 
     def iniciar(self):
+        self.controller.carregar_clientes()
+        self.controller.carregar_especie()
+        self.controller.carregar_raca()
         self.controller.get_all()

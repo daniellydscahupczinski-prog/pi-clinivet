@@ -15,6 +15,10 @@ class Aplicacao_Vacina_View:
         self.root = root
         self.controller = controller
         self._aplicacoes_vacina = []
+        self._animais = {}
+        self._animais_por_id = {}
+        self._vacinas = {}
+        self._vacinas_por_id = {}
 
         self.configurar__janela()
         self.criar_componentes()
@@ -190,9 +194,10 @@ class Aplicacao_Vacina_View:
             sticky="w"
         )
 
-        self.txt_animal_id = tk.Entry(
+        self.txt_animal_id = ttk.Combobox(
             self.frm_dados,
-            width=20
+            width=37,
+            state="readonly"
         )
         self.txt_animal_id.grid(
             row=5,
@@ -214,9 +219,10 @@ class Aplicacao_Vacina_View:
             sticky="w"
         )
 
-        self.txt_vacina_id = tk.Entry(
+        self.txt_vacina_id = ttk.Combobox(
             self.frm_dados,
-            width=20
+            width=37,
+            state="readonly"
         )
         self.txt_vacina_id.grid(
             row=6,
@@ -451,6 +457,24 @@ class Aplicacao_Vacina_View:
             self.controller.selecionar_aplicacoes_vacina
         )
 
+    def carregar_animal(self, animais):
+        self._animais = {}
+        self._animais_por_id = {}
+        for animal in animais:
+            texto = f"{animal.nome} - {animal.id}"
+            self._animais[texto] = animal.id
+            self._animais_por_id[animal.id] = texto
+        self.txt_animal_id["values"] = list(self._animais.keys())
+
+    def carregar_vacina(self, vacinas):
+        self._vacinas = {}
+        self._vacinas_por_id = {}
+        for vacina in vacinas:
+            texto = f"{vacina.nome} - {vacina.id}"
+            self._vacinas[texto] = vacina.id
+            self._vacinas_por_id[vacina.id] = texto
+        self.txt_vacina_id["values"] = list(self._vacinas.keys())
+
     def preencher_campos(self, aplicacao_vacina):
         self.limpar_campos()
 
@@ -481,14 +505,12 @@ class Aplicacao_Vacina_View:
             aplicacao_vacina.status_vacina
         )
 
-        self.txt_animal_id.insert(
-            0,
-            aplicacao_vacina.animal_id
+        self.txt_animal_id.set(
+            self._animais_por_id.get(aplicacao_vacina.animal_id, "")
         )
 
-        self.txt_vacina_id.insert(
-            0,
-            aplicacao_vacina.vacina_id
+        self.txt_vacina_id.set(
+            self._vacinas_por_id.get(aplicacao_vacina.vacina_id, "")
         )
 
     def limpar_campos(self):
@@ -521,15 +543,9 @@ class Aplicacao_Vacina_View:
             tk.END
         )
 
-        self.txt_animal_id.delete(
-            0,
-            tk.END
-        )
+        self.txt_animal_id.set("")
 
-        self.txt_vacina_id.delete(
-            0,
-            tk.END
-        )
+        self.txt_vacina_id.set("")
 
         self.txt_tipo_servico.focus()
 
@@ -553,8 +569,8 @@ class Aplicacao_Vacina_View:
         data_vacina = self.txt_data_vacina.get()
         horario_vacina = self.txt_horario_vacina.get()
         status_vacina = self.txt_status_vacina.get()
-        animal_id = self.txt_animal_id.get()
-        vacina_id = self.txt_vacina_id.get()
+        animal_id = self._animais.get(self.txt_animal_id.get())
+        vacina_id = self._vacinas.get(self.txt_vacina_id.get())
 
         return (
             tipo_servico,
@@ -592,8 +608,8 @@ class Aplicacao_Vacina_View:
                     aplicacao_vacina.data_vacina,
                     aplicacao_vacina.horario_vacina,
                     aplicacao_vacina.status_vacina,
-                    aplicacao_vacina.animal_id,
-                    aplicacao_vacina.vacina_id
+                    self._animais_por_id.get(aplicacao_vacina.animal_id, aplicacao_vacina.animal_id),
+                    self._vacinas_por_id.get(aplicacao_vacina.vacina_id, aplicacao_vacina.vacina_id)
                 )
             )
 
@@ -601,4 +617,6 @@ class Aplicacao_Vacina_View:
         self.root.destroy()
 
     def iniciar(self):
+        self.controller.carregar_animal()
+        self.controller.carregar_vacina()
         self.controller.get_all()

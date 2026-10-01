@@ -1,4 +1,3 @@
-
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
@@ -17,6 +16,8 @@ class Agendamento_View:
         self.controller = controller
         self._estados = []
         self._cidades = []
+        self._animais = {}
+        self._animais_por_id = {}
         self.configurar_janela()
         self.criar_componentes()
         self.configurar_treeview()
@@ -179,9 +180,10 @@ class Agendamento_View:
             pady = 5,
             sticky = "w"
         )
-        self.txt_animal_id = tk.Entry(
+        self.txt_animal_id = ttk.Combobox(
             self.frm_dados,
-            width = 20
+            width = 37,
+            state = "readonly"
         )
         self.txt_animal_id.grid(
             row = 3,
@@ -385,6 +387,15 @@ class Agendamento_View:
             "<<TreeviewSelect>>",
             self.controller.selecionar_agendamento
         )
+    def carregar_animais(self, animais):
+        self._animais = {}
+        self._animais_por_id = {}
+        for animal in animais:
+            texto = f"{animal.nome} - {animal.id}"
+            self._animais[texto] = animal.id
+            self._animais_por_id[animal.id] = texto
+        self.txt_animal_id["values"] = list(self._animais.keys())
+
     def preencher_campos(self, agendamento):
 
         self.limpar_campos()
@@ -416,9 +427,8 @@ class Agendamento_View:
         agendamento.status_agendamento
         )
 
-        self.txt_animal_id.insert(
-        0,
-        str(agendamento.animal_id)
+        self.txt_animal_id.set(
+            self._animais_por_id.get(agendamento.animal_id, "")
         )
     def limpar_campos(self):
         self.txt_id.config(state="normal")
@@ -433,7 +443,7 @@ class Agendamento_View:
 
         self.txt_status_agendamento.delete(0, tk.END)
 
-        self.txt_animal_id.delete(0, tk.END)
+        self.txt_animal_id.set("")
 
         self.txt_servico_agendamento.focus()   
 
@@ -460,7 +470,7 @@ class Agendamento_View:
         horario_agendamento = self.txt_horario_agendamento.get()
         data_agendamento = self.txt_data_agendamento.get()
         status_agendamento = self.txt_status_agendamento.get()
-        animal_id = self.txt_animal_id.get()
+        animal_id = self._animais.get(self.txt_animal_id.get())
 
         return servico_agendamento, horario_agendamento, data_agendamento, status_agendamento, animal_id
     
@@ -493,11 +503,12 @@ class Agendamento_View:
                     agendamento.horario_agendamento,
                     agendamento.data_agendamento,
                     agendamento.status_agendamento,
-                    agendamento.animal_id
+                    self._animais_por_id.get(agendamento.animal_id, agendamento.animal_id)
                 )
             )
     def fechar(self):
         self.root.destroy()
 
     def iniciar(self):
+        self.controller.carregar_animais()
         self.controller.get_all()
