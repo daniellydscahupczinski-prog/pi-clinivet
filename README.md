@@ -62,10 +62,10 @@ Aplicacao_vacina - [ID, TIPO_SERVICO, DATA_VACINA, HORARIO_VACINA, STATUS_VACINA
 
 📜 Script do Banco de Dados
 
-O script completo está no arquivo database/clinivet.sql e também pode ser conferido abaixo:
+<details> 
 
-<details> <summary><b>Clique para ver o script SQL</b></summary>
-sql
+<summary>
+
 CREATE DATABASE IF NOT EXISTS CliniVet;
 USE CliniVet;
 
@@ -207,26 +207,21 @@ WHERE c.data_consulta <= CURDATE();
 
 ---
 
-## Como executar 
-
+## 🚀 Como executar
 🔧 Passo a passo
 
 1. Clone o repositório
 
-bash
-git clone https://github.com/daniellydscahupczinski-prog/pi-clinivet.git
+git clone https://github.com/daniellydscahupczinski-prog/pi-clinivet.git ,
 cd pi-clinivet
 
 2. Crie e ative o ambiente virtual
 No Windows:
-
-python -m venv venv
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-venv\Scripts\activate
+- python -m venv venv
+- Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+- venv\Scripts\activate
 
 3. Instale as dependências
-
-bash
 pip install -r requirements.txt
 
 - Instalar manualmente:
@@ -237,15 +232,6 @@ pip install mysql-connector-python tkcalendar pillow python-dotenv
 ## 👥 Público alvo
 
 Osistema da Clinica Veterinária é mais focado para pessoas que buscam por atendimento para seus animais, que querem agendar vacinações para os seus pets e pessoas que desejam acompanhar o histórico de saúde de seus animais.
-
----
-
-## 🚀 Como executar
-
-1. Clone o repositório.
-2. Instale as dependências.
-3. Configure o banco de dados.
-4. Execute o arquivo principal.
 
 ---
 
